@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: smyrna-wiki
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: "./server/smyrna.db"
+      - key: npm_config_build_from_source
+        value: "true"
+      - key: npm_config_sqlite
+        value: "/usr"
+      - key: PYTHON
+        value: "/usr/bin/python3"
+      - key: npm_config_optional
+        value: "false"
+      - key: npm_config_fund
+        value: "false"
+    autoDeploy: true
