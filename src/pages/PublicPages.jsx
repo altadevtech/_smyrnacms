@@ -32,7 +32,7 @@ const PublicPages = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await api.get('/categories?type=wiki')
+  const response = await api.get('/categories?type=page')
       setCategories(response.data)
     } catch (error) {
       console.error('Erro ao carregar categorias:', error)
@@ -51,7 +51,7 @@ const PublicPages = () => {
       console.log('📊 Total de páginas:', response.data.length)
       setPages(response.data)
     } catch (error) {
-      console.error('Erro ao carregar páginas do wiki:', error)
+  console.error('Erro ao carregar páginas:', error)
     }
     setLoading(false)
   }
@@ -103,7 +103,7 @@ const PublicPages = () => {
             animation: 'spin 1s linear infinite'
           }}></div>
           <p style={{ color: '#64748b', margin: '0', fontWeight: '500' }}>
-            Carregando wiki...
+            Carregando páginas...
           </p>
         </div>
       </div>
@@ -155,7 +155,7 @@ const PublicPages = () => {
               filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
             }} 
           />
-          Wiki
+          Páginas
         </h1>
         <p style={{
           margin: 0,
@@ -674,7 +674,7 @@ const PublicPages = () => {
             }}>
               {hasActiveFilters 
                 ? 'Tente ajustar os filtros de busca para encontrar mais resultados.'
-                : 'Ainda não há páginas publicadas no wiki.'
+                : 'Ainda não há páginas publicadas.'
               }
             </p>
             {hasActiveFilters && (

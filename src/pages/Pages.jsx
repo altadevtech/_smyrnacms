@@ -17,7 +17,7 @@ const Pages = () => {
       const response = await api.get('/pages')
       setPages(response.data)
     } catch (error) {
-      toast.error('Erro ao carregar wiki')
+  toast.error('Erro ao carregar páginas')
       console.error(error)
     }
     setLoading(false)
@@ -49,13 +49,13 @@ const Pages = () => {
   }
 
   if (loading) {
-    return <div className="loading">Carregando wiki...</div>
+  return <div className="loading">Carregando páginas...</div>
   }
 
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1><FileText size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />Wiki</h1>
+  <h1><FileText size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />Páginas</h1>
         <Link to="/admin/pages/new" className="btn btn-primary">
           <Plus size={18} style={{ verticalAlign: 'middle' }} /> Nova Pagina
         </Link>
@@ -326,7 +326,7 @@ const Pages = () => {
         <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
           <FileText size={64} style={{ color: 'rgb(102, 234, 205)', marginBottom: '1rem' }} />
           <h2>Nenhuma pagina encontrada</h2>
-          <p>Ainda nao ha paginas no wiki.</p>
+          <p>Ainda não há páginas cadastradas.</p>
           <Link to="/admin/pages/new" className="btn btn-primary">
             <Plus size={18} style={{ verticalAlign: 'middle' }} /> Criar primeira pagina
           </Link>

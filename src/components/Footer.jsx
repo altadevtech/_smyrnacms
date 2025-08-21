@@ -85,10 +85,10 @@ const Footer = () => {
           {/* Brand Section */}
           <div>
             <h4 style={{ margin: '0 0 0.75rem 0', fontSize: '1.4rem', fontWeight: '700', color: 'white' }}>
-              {settings.siteName || 'Smyrna Wiki'}
+              {settings.siteName || 'Smyrna CMS'}
             </h4>
             <p style={{ margin: '0 0 1rem 0', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.5, fontSize: '0.85rem' }}>
-              {settings.siteDescription || 'Construído com tecnologias consolidadas e boas práticas de desenvolvimento, o sistema mantém seu compromisso com performance, leveza e segurança, enquanto incorpora recursos essenciais para uma WIKI funcional e escalável.'}
+              {settings.siteDescription || 'Construído com tecnologias consolidadas e boas práticas de desenvolvimento, o sistema mantém seu compromisso com performance, leveza e segurança, enquanto incorpora recursos essenciais para um CMS funcional e escalável.'}
             </p>
           </div>
 
@@ -100,7 +100,7 @@ const Footer = () => {
             </h4>
             <div style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               <Link to="/" style={linkStyle}>Início</Link><br />
-              <Link to="/pages" style={linkStyle}>Wiki</Link><br />
+              <Link to="/pages" style={linkStyle}>Páginas</Link><br />
               <Link to="/blog" style={linkStyle}>Blog</Link><br />
               <Link to="/contact" style={linkStyle}>Contato</Link>
             </div>
@@ -144,7 +144,7 @@ const Footer = () => {
             alignItems: window.innerWidth > 768 ? 'flex-start' : 'flex-start'
           }}>
             <p style={{ margin: 0, color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.8rem' }}>
-              © {currentYear} {settings.siteName || 'Smyrna Wiki'}. Todos os direitos reservados.
+              © {currentYear} {settings.siteName || 'Smyrna CMS'}. Todos os direitos reservados.
             </p>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

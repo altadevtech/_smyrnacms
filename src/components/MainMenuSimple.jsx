@@ -5,7 +5,7 @@ import { Home, FileText, BookOpen, Phone } from 'lucide-react'
 const MainMenuSimple = ({ className = '', orientation = 'horizontal', onLinkClick }) => {
   const menuItems = [
     { to: '/', label: 'Início', icon: Home },
-    { to: '/pages', label: 'Wiki', icon: FileText },
+  { to: '/pages', label: 'Páginas', icon: FileText },
     { to: '/blog', label: 'Blog', icon: BookOpen },
     { to: '/contact', label: 'Contato', icon: Phone }
   ]

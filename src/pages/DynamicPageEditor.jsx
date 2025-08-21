@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import RichTextEditor from '../components/RichTextEditor'
 import EditorLayout from '../components/EditorLayout'
-import { WikiEditorSidebar } from '../components/EditorSidebars'
+import { PaginaEditorSidebar } from '../components/EditorSidebars'
 
 const DynamicPageEditor = () => {
   const { id } = useParams()
@@ -98,9 +98,7 @@ const DynamicPageEditor = () => {
         const response = await api.get(`/pages/${id}`)
         const page = response.data
         
-        // Preencher o formulário
-        setValue('title', page.title || '')
-        setValue('summary', page.summary || '')
+  // Preencher o formulário
         setValue('slug', page.slug || '')
         setValue('status', page.status || 'draft')
         setValue('category_id', page.category_id || '')
@@ -164,11 +162,11 @@ const DynamicPageEditor = () => {
 
   return (
     <EditorLayout
-      title={isEditing ? 'Editar Página Wiki' : 'Nova Página Wiki'}
-      subtitle={isEditing ? 'Modifique o conteúdo da sua página' : 'Crie uma nova página para sua wiki'}
+  title={isEditing ? 'Editar Página' : 'Nova Página'}
+  subtitle={isEditing ? 'Modifique o conteúdo da sua página' : 'Crie uma nova página para seu site'}
       icon={FileText}
       loading={loading}
-      sidebar={<WikiEditorSidebar currentUser={currentUser} isEditing={isEditing} />}
+  sidebar={<PaginaEditorSidebar currentUser={currentUser} isEditing={isEditing} />}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Seção Principal */}

@@ -20,6 +20,9 @@
     "render-build": "node scripts/fix-render-deps.js && npm run rebuild-sqlite && npm run build"
   },
   "dependencies": {
+    "@tiptap/extension-link": "^3.2.0",
+    "@tiptap/react": "^3.2.0",
+    "@tiptap/starter-kit": "^3.2.0",
     "@types/react-beautiful-dnd": "^13.1.8",
     "axios": "^1.6.7",
     "lucide-react": "^0.344.0",

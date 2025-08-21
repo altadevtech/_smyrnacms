@@ -30,7 +30,7 @@ const Navbar = () => {
   // Menu público
   const publicMenuItems = [
     { to: '/', label: 'Início', icon: Home },
-    { to: '/pages', label: 'Wiki', icon: FileText },
+  { to: '/pages', label: 'Páginas', icon: FileText },
     { to: '/blog', label: 'Blog', icon: BookOpen },
     { to: '/contact', label: 'Contato', icon: Phone }
   ]
@@ -38,7 +38,7 @@ const Navbar = () => {
   // Menu administrativo
   const adminMenuItems = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/pages', label: 'Wiki', icon: FileText },
+  { to: '/pages', label: 'Páginas', icon: FileText },
     { to: '/posts', label: 'Posts', icon: PenTool },
     ...(user?.role === 'admin' ? [{ to: '/users', label: 'Usuários', icon: Users }] : [])
   ]
@@ -190,7 +190,7 @@ const Navbar = () => {
                 }}>
                   S
                 </div>
-                <span>{settings.siteName || 'Smyrna Wiki'}</span>
+                <span>{settings.siteName || 'Smyrna CMS'}</span>
               </>
             )}
           </Link>

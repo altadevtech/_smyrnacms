@@ -10,13 +10,13 @@ import {
   Zap
 } from 'lucide-react'
 
-export const WikiEditorSidebar = ({ currentUser, isEditing }) => {
+export const PaginaEditorSidebar = ({ currentUser, isEditing }) => {
   return (
     <>
       <div className="sidebar-card">
         <div className="sidebar-card-header">
           <FileText size={16} />
-          Editor de Wiki
+          Editor de Página
         </div>
         <div className="sidebar-card-content">
           <div className="sidebar-item">
@@ -54,7 +54,7 @@ export const WikiEditorSidebar = ({ currentUser, isEditing }) => {
       <div className="sidebar-card">
         <div className="sidebar-card-header">
           <Lightbulb size={16} />
-          Dicas da Wiki
+          Dicas de Páginas
         </div>
         <div className="sidebar-card-content">
           <div className="sidebar-item">

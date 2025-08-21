@@ -1,12 +1,12 @@
 import React from 'react'
-import WikiSidebar from './WikiSidebar'
-import WikiBreadcrumbs from './WikiBreadcrumbs'
+import PaginaSidebar from './WikiSidebar'
+import PaginaBreadcrumbs from './WikiBreadcrumbs'
 
-const WikiLayout = ({ children, category, page }) => {
+const PaginaLayout = ({ children, category, page }) => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#ffffff' }}>
       {/* Sidebar */}
-      <WikiSidebar />
+  <PaginaSidebar />
       
       {/* Main Content */}
       <div style={{ 
@@ -15,7 +15,7 @@ const WikiLayout = ({ children, category, page }) => {
         maxWidth: 'calc(100vw - 280px)',
         overflowX: 'auto'
       }}>
-        <WikiBreadcrumbs category={category} page={page} />
+  <PaginaBreadcrumbs category={category} page={page} />
         
         {/* Content Area */}
         <div style={{
@@ -30,4 +30,4 @@ const WikiLayout = ({ children, category, page }) => {
   )
 }
 
-export default WikiLayout
+export default PaginaLayout

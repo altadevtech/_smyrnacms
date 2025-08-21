@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronRight, Home } from 'lucide-react'
 
-const WikiBreadcrumbs = ({ category, page }) => {
+const PaginaBreadcrumbs = ({ category, page }) => {
   return (
     <nav style={{
       display: 'flex',
@@ -34,7 +34,7 @@ const WikiBreadcrumbs = ({ category, page }) => {
       <ChevronRight size={14} style={{ margin: '0 0.5rem', color: '#d1d5db' }} />
 
       <Link
-        to="/wiki"
+  to="/pages"
         style={{
           textDecoration: 'none',
           color: '#6b7280',
@@ -45,7 +45,7 @@ const WikiBreadcrumbs = ({ category, page }) => {
         onMouseEnter={(e) => e.target.style.backgroundColor = '#f3f4f6'}
         onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
       >
-        Wiki
+  Páginas
       </Link>
 
       {category && (
@@ -77,4 +77,4 @@ const WikiBreadcrumbs = ({ category, page }) => {
   )
 }
 
-export default WikiBreadcrumbs
+export default PaginaBreadcrumbs

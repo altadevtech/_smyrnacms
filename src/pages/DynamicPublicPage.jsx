@@ -2,29 +2,27 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
 import api from '../services/api'
 import ContentRenderer from '../components/ContentRenderer'
-import WikiLayout from '../components/WikiLayout'
+// import PaginaLayout from '../components/WikiLayout'
 import { ArrowLeft, User, Calendar, Home, Clock, Tag, BookOpen } from 'lucide-react'
 
 const DynamicPublicPage = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { slug } = useParams()
   const location = useLocation()
   const [page, setPage] = useState(null)
   const [category, setCategory] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   
-  // Verificar se é rota Wiki
-  const isWikiRoute = location.pathname.startsWith('/wiki/') || 
-                     (page && !location.pathname.startsWith('/page/'))
+  // Verificar se é rota de página
+  // const isPageRoute = location.pathname.startsWith('/pages/') || 
+  //                    (page && !location.pathname.startsWith('/page/'))
 
   useEffect(() => {
     fetchPage()
-    
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768)
     }
-    
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [slug])
@@ -34,7 +32,6 @@ const DynamicPublicPage = () => {
       // Buscar página por slug
       const pageResponse = await api.get(`/pages/public/${slug}`)
       setPage(pageResponse.data)
-      
       // Buscar categoria se a página tiver uma
       if (pageResponse.data.category_id) {
         try {
@@ -45,10 +42,11 @@ const DynamicPublicPage = () => {
         }
       }
     } catch (error) {
+      setError('Erro ao carregar página')
       console.error('Erro ao carregar página:', error)
-      setError(error.response?.data?.message || 'Página não encontrada')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   if (loading) {
@@ -102,9 +100,7 @@ const DynamicPublicPage = () => {
           borderRadius: '16px',
           boxShadow: '0 4px 25px rgba(0, 0, 0, 0.08)',
           border: '1px solid #e5e7eb',
-          padding: '3rem 2rem',
-          maxWidth: '500px',
-          width: '100%'
+          padding: '3rem 2rem'
         }}>
           <div style={{
             fontSize: '4rem',
@@ -186,7 +182,6 @@ const DynamicPublicPage = () => {
           borderRadius: '50%',
           transform: 'rotate(15deg)'
         }}></div>
-        
         {/* Badge de categoria */}
         <div style={{
           marginBottom: '1rem',
@@ -199,7 +194,6 @@ const DynamicPublicPage = () => {
             padding: '0.5rem 1rem',
             borderRadius: '20px',
             fontSize: '0.8rem',
-            fontWeight: '600',
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
@@ -208,10 +202,9 @@ const DynamicPublicPage = () => {
             gap: '0.25rem'
           }}>
             <Tag size={14} style={{ marginRight: '0.25rem', verticalAlign: 'middle' }} />
-            Wiki
+            {category ? category.name : 'Página'}
           </span>
         </div>
-        
         <h1 style={{
           margin: '0 0 1.5rem 0',
           fontSize: isMobile ? '1.8rem' : '2.5rem',
@@ -223,7 +216,6 @@ const DynamicPublicPage = () => {
         }}>
           {page.title}
         </h1>
-        
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -260,20 +252,8 @@ const DynamicPublicPage = () => {
               year: 'numeric'
             })}
           </span>
-          <span style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'rgba(255, 255, 255, 0.2)',
-            padding: '0.5rem 1rem',
-            borderRadius: '20px'
-          }}>
-            <BookOpen size={16} />
-            Página Wiki
-          </span>
         </div>
       </header>
-
       <div style={{
         padding: isMobile ? '2rem 1.5rem' : '3rem 2rem',
         fontSize: '1.1rem',
@@ -282,7 +262,6 @@ const DynamicPublicPage = () => {
       }}>
         <ContentRenderer content={page.content} />
       </div>
-      
       <footer style={{
         borderTop: '1px solid #f1f5f9',
         padding: '1.5rem 2rem',
@@ -303,7 +282,6 @@ const DynamicPublicPage = () => {
           <Clock size={16} />
           Última atualização: {new Date(page.updated_at).toLocaleDateString('pt-BR')}
         </div>
-        
         <Link 
           to="/pages"
           style={{
@@ -333,16 +311,9 @@ const DynamicPublicPage = () => {
     </article>
   )
 
-  // Se for rota Wiki, usar WikiLayout
-  if (isWikiRoute) {
-    return (
-      <WikiLayout category={category} page={page}>
-        {renderContent()}
-      </WikiLayout>
-    )
-  }
+  // Layout único CMS
 
-  // Renderização tradicional para outras rotas
+  // Renderização tradicional CMS
   return (
     <div style={{
       maxWidth: '1200px',
@@ -350,11 +321,8 @@ const DynamicPublicPage = () => {
       padding: isMobile ? '1rem' : '2rem 1rem',
       fontFamily: 'Arial, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
-      
       {/* Header com navegação */}
-      <header style={{
-        marginBottom: '2rem'
-      }}>
+      <header style={{ marginBottom: '2rem' }}>
         <nav style={{
           display: 'flex',
           alignItems: 'center',
@@ -377,13 +345,13 @@ const DynamicPublicPage = () => {
               transition: 'all 0.2s ease',
               background: 'rgba(102, 234, 205, 0.1)'
             }}
-            onMouseEnter={(e) => {
-              e.target.style.background = 'rgba(102, 234, 205, 0.2)'
-              e.target.style.transform = 'translateX(-2px)'
+            onMouseEnter={e => {
+              e.target.style.background = 'rgba(102, 234, 205, 0.2)';
+              e.target.style.transform = 'translateX(-2px)';
             }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'rgba(102, 234, 205, 0.1)'
-              e.target.style.transform = 'translateX(0)'
+            onMouseLeave={e => {
+              e.target.style.background = 'rgba(102, 234, 205, 0.1)';
+              e.target.style.transform = 'translateX(0)';
             }}
           >
             <Home size={18} />
@@ -399,25 +367,28 @@ const DynamicPublicPage = () => {
               borderRadius: '4px',
               transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => {
-              e.target.style.background = 'rgba(102, 234, 205, 0.1)'
+            onMouseEnter={e => {
+              e.target.style.background = 'rgba(102, 234, 205, 0.1)';
             }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'transparent'
+            onMouseLeave={e => {
+              e.target.style.background = 'transparent';
             }}
           >
-            Wiki
+            Páginas
           </Link>
           <span style={{ color: '#d1d5db' }}>•</span>
           <span style={{ color: '#9ca3af' }}>
-            {page.title}
+            {page?.title}
           </span>
         </nav>
       </header>
-
-      {renderContent()}
+      {/* Conteúdo principal */}
+      <main>
+        {renderContent()}
+      </main>
     </div>
-  )
+  );
 }
 
-export default DynamicPublicPage
+// Fim do componente
+export default DynamicPublicPage;

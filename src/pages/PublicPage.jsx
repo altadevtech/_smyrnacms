@@ -4,7 +4,7 @@ import api from '../services/api'
 import ContentRenderer from '../components/ContentRenderer'
 import { Calendar, User, ArrowLeft, Home, Clock, Tag, BookOpen } from 'lucide-react'
 
-// Componente para exibir páginas públicas da Wiki
+// Componente para exibir páginas públicas do CMS
 
 const PublicPage = () => {
   const { slug } = useParams()
@@ -208,7 +208,7 @@ const PublicPage = () => {
               e.target.style.background = 'transparent'
             }}
           >
-            Wiki
+            Páginas
           </Link>
           <span style={{ color: '#d1d5db' }}>•</span>
           <span style={{ color: '#9ca3af' }}>
@@ -265,7 +265,7 @@ const PublicPage = () => {
               gap: '0.25rem'
             }}>
               <Tag size={14} style={{ marginRight: '0.25rem', verticalAlign: 'middle' }} />
-              Wiki
+              Páginas
             </span>
           </div>
           
@@ -326,7 +326,7 @@ const PublicPage = () => {
               borderRadius: '20px'
             }}>
               <BookOpen size={16} />
-              Página Wiki
+              Página
             </span>
           </div>
         </header>

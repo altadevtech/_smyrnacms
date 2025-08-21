@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
@@ -6,22 +8,33 @@ import { BookOpen, FileText, Calendar, ArrowRight, Settings } from 'lucide-react
 
 function DynamicHome() {
   const { isAuthenticated } = useAuth()
+
   const [homepageData, setHomepageData] = useState(null)
   const [recentPosts, setRecentPosts] = useState([])
   const [recentPages, setRecentPages] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+
+  // Buscar páginas e posts recentes
+  const fetchRecentContent = async () => {
+    try {
+      const pagesResponse = await api.get('/pages/recent?limit=4')
+      setRecentPages(pagesResponse.data || [])
+      const postsResponse = await api.get('/posts/recent?limit=4')
+      setRecentPosts(postsResponse.data || [])
+    } catch (error) {
+      console.error('Erro ao carregar conteúdo recente:', error)
+      setError('Erro ao carregar conteúdo recente')
+    }
+  }
 
   useEffect(() => {
     fetchHomepageContent()
     fetchRecentContent()
-    
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768)
     }
-    
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
@@ -32,44 +45,23 @@ function DynamicHome() {
       if (response.data) {
         setHomepageData(response.data)
       } else {
-        // Dados padrão se não houver configuração
         setHomepageData({
-          title: 'Bem-vindo à Smyrna Wiki',
-          content: '<h2>Sistema de Wiki e Gerenciamento de Conhecimento</h2><p>Este é um sistema completo para organização e compartilhamento de conhecimento.</p>',
+          title: 'Bem-vindo ao Smyrna CMS',
+          content: '<h2>Sistema de Gerenciamento de Conteúdo</h2><p>Este é um sistema completo para organização e publicação de conteúdo.</p>',
           isEnabled: true
         })
       }
     } catch (error) {
       console.error('Erro ao carregar conteúdo da página inicial:', error)
-      // Usar dados padrão em caso de erro
       setHomepageData({
-        title: 'Bem-vindo à Smyrna Wiki',
-        content: '<h2>Sistema de Wiki e Gerenciamento de Conhecimento</h2><p>Este é um sistema completo para organização e compartilhamento de conhecimento.</p>',
+        title: 'Bem-vindo ao Smyrna CMS',
+        content: '<h2>Sistema de Gerenciamento de Conteúdo</h2><p>Este é um sistema completo para organização e publicação de conteúdo.</p>',
         isEnabled: true
       })
     }
   }
 
-  const fetchRecentContent = async () => {
-    try {
-      // Buscar últimas 4 páginas da wiki
-      const pagesResponse = await api.get('/pages/recent?limit=4')
-      setRecentPages(pagesResponse.data || [])
-
-      // Buscar últimos 4 posts do blog
-      const postsResponse = await api.get('/posts/recent?limit=4')
-      setRecentPosts(postsResponse.data || [])
-
-    } catch (error) {
-      console.error('Erro ao carregar conteúdo recente:', error)
-      setError('Erro ao carregar conteúdo recente')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const formatDate = (dateString) => {
-    if (!dateString) return ''
     const date = new Date(dateString)
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
@@ -77,7 +69,7 @@ function DynamicHome() {
       year: 'numeric'
     })
   }
-
+        
   if (loading) {
     return (
       <div style={{
@@ -120,8 +112,8 @@ function DynamicHome() {
     homepageData.content && 
     homepageData.title.trim() !== '' && 
     homepageData.content.trim() !== '' &&
-    !(homepageData.title === 'Bem-vindo ao Smyrna Wiki' && 
-      homepageData.content.includes('Sistema de Wiki e Gerenciamento de Conhecimento'))
+    !(homepageData.title === 'Bem-vindo ao Smyrna CMS' && 
+      homepageData.content.includes('Sistema de Gerenciamento de Conteúdo'))
 
   return (
     <div style={{
@@ -252,13 +244,13 @@ function DynamicHome() {
           </>
         ) : (
           <>
-            <h1 className="homepage-title">Bem-vindo à Smyrna Wiki</h1>
+            <h1 className="homepage-title">Bem-vindo ao Smyrna CMS</h1>
             <div className="homepage-content">
-              <h2>Sistema de Wiki e Gerenciamento de Conhecimento</h2>
-              <p>Este é um sistema completo para organização e compartilhamento de conhecimento.</p>
+              <h2>Sistema de Gerenciamento de Conteúdo</h2>
+              <p>Este é um sistema completo para organização e publicação de conteúdo.</p>
               <h3>Funcionalidades:</h3>
               <ul>
-                <li>📄 Páginas Wiki organizadas</li>
+                <li>📄 Páginas organizadas</li>
                 <li>📝 Blog integrado</li>
                 <li>👥 Gerenciamento de usuários</li>
                 <li>🎨 Interface responsiva</li>
@@ -496,5 +488,5 @@ function DynamicHome() {
     </div>
   )
 }
+export default DynamicHome;
 
-export default DynamicHome

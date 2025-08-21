@@ -6,7 +6,7 @@ import {
   FileText, Home, Folder, FolderOpen 
 } from 'lucide-react'
 
-const WikiSidebar = () => {
+const PaginaSidebar = () => {
   const [categories, setCategories] = useState([])
   const [pages, setPages] = useState([])
   const [expandedCategories, setExpandedCategories] = useState(new Set())
@@ -25,7 +25,7 @@ const WikiSidebar = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await api.get('/categories?type=wiki&hierarchical=true')
+  const response = await api.get('/categories?type=page&hierarchical=true')
       setCategories(response.data)
     } catch (error) {
       console.error('Erro ao carregar categorias:', error)
@@ -37,7 +37,7 @@ const WikiSidebar = () => {
       const response = await api.get('/pages/public')
       setPages(response.data)
     } catch (error) {
-      console.error('Erro ao carregar wiki:', error)
+  console.error('Erro ao carregar páginas:', error)
     }
   }
 
@@ -55,7 +55,7 @@ const WikiSidebar = () => {
       )
       setFilteredPages(filtered)
     } catch (error) {
-      console.error('Erro ao filtrar wiki:', error)
+  console.error('Erro ao filtrar páginas:', error)
       setFilteredPages([])
     }
   }
@@ -83,7 +83,7 @@ const WikiSidebar = () => {
   }
 
   const isCurrentPage = (slug) => {
-    return location.pathname === `/wiki/${slug}` || location.pathname === `/${slug}`
+  return location.pathname === `/pages/${slug}` || location.pathname === `/${slug}`
   }
 
   return (
@@ -104,7 +104,7 @@ const WikiSidebar = () => {
           alignItems: 'center'
         }}>
           <FileText size={20} style={{ marginRight: '0.5rem' }} />
-          Wiki Navigation
+          Navegação de Páginas
         </h2>
 
         {/* Search */}
@@ -118,7 +118,7 @@ const WikiSidebar = () => {
           }} />
           <input
             type="text"
-            placeholder="Buscar no wiki..."
+            placeholder="Buscar nas páginas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
@@ -205,7 +205,7 @@ const WikiSidebar = () => {
                   {categoryPages.map(page => (
                     <Link
                       key={page.id}
-                      to={`/wiki/${page.slug}`}
+                      to={`/pages/${page.slug}`}
                       style={{
                         display: 'block',
                         padding: '0.375rem 0.5rem',
@@ -265,7 +265,7 @@ const WikiSidebar = () => {
                             {subcategoryPages.map(page => (
                               <Link
                                 key={page.id}
-                                to={`/wiki/${page.slug}`}
+                                to={`/pages/${page.slug}`}
                                 style={{
                                   display: 'block',
                                   padding: '0.25rem 0.5rem',
@@ -328,7 +328,7 @@ const WikiSidebar = () => {
               {getUncategorizedPages().map(page => (
                 <Link
                   key={page.id}
-                  to={`/wiki/${page.slug}`}
+                  to={`/pages/${page.slug}`}
                   style={{
                     display: 'block',
                     padding: '0.375rem 0.5rem',
@@ -378,4 +378,4 @@ const WikiSidebar = () => {
   )
 }
 
-export default WikiSidebar
+export default PaginaSidebar
