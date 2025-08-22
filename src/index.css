@@ -1,12 +1,27 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+
 :root {
-  font-family: Arial, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.5;
+  --color-bg: #f7f8fa;
+  --color-bg-alt: #fff;
+  --color-text: #23272f;
+  --color-border: #ececec;
+  --color-primary: #23272f;
+  --color-secondary: #3b4252;
+  --color-accent: #3b82f6;
+  --color-muted: #6b7280;
+  --color-card: #fff;
+  --color-input-bg: #f9fafb;
+  --color-input-border: #d1d5db;
+  --color-link: #3b82f6;
+  --color-link-hover: #1e40af;
+  font-family: 'Montserrat', Arial, Tahoma, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 2.04; /* 20% maior que 1.7 */
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: var(--color-text);
+  background-color: var(--color-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -14,18 +29,51 @@
   -webkit-text-size-adjust: 100%;
 }
 
-/* Força fonte sans-serif para todos os elementos */
+
+.theme-dark {
+  --color-bg: #23272f;
+  --color-bg-alt: #181a1b;
+  --color-text: #f3f4f6;
+  --color-border: #444;
+  --color-primary: #f3f4f6;
+  --color-secondary: #a1a1aa;
+  --color-accent: #60a5fa;
+  --color-muted: #a1a1aa;
+  --color-card: #23272f;
+  --color-input-bg: #23272f;
+  --color-input-border: #3b4252;
+  --color-link: #60a5fa;
+  --color-link-hover: #93c5fd;
+}
+
+
+.theme-bw {
+  --color-bg: #fff;
+  --color-bg-alt: #f7f8fa;
+  --color-text: #000;
+  --color-border: #222;
+  --color-primary: #000;
+  --color-secondary: #444;
+  --color-accent: #000;
+  --color-muted: #444;
+  --color-card: #fff;
+  --color-input-bg: #fff;
+  --color-input-border: #000;
+  --color-link: #000;
+  --color-link-hover: #444;
+}
+
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-align: left;
-  font-family: Arial, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: 'Montserrat', Arial, Tahoma, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
-/* Override específico para elementos que podem ter fontes serifadas */
 h1, h2, h3, h4, h5, h6, p, div, span, a, li, ul, ol, button, input, textarea, select, label, td, th, tr, table {
-  font-family: Arial, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: 'Montserrat', Arial, Tahoma, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 body {
@@ -34,7 +82,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
   text-align: left;
-  font-family: Arial, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: 'Montserrat', Arial, Tahoma, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 #root {
@@ -53,19 +103,20 @@ body {
 
 .btn {
   border-radius: 8px;
+  border-radius: 3px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-bg);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 
 .btn:hover {
-  border-color: #646cff;
+  border-color: var(--color-accent);
 }
 
 .btn:focus,
@@ -74,7 +125,7 @@ body {
 }
 
 .btn-primary {
-  background-color: #646cff;
+  background-color: var(--color-accent);
 }
 
 .btn-danger {
@@ -90,11 +141,12 @@ body {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  border-radius: 3px;
   font-size: 1rem;
 }
 
 .navbar {
-  background-color: #333;
+  background-color: var(--color-bg-alt);
   padding: 1rem 0;
   margin-bottom: 2rem;
 }
@@ -107,18 +159,27 @@ body {
 }
 
 .navbar a {
-  color: white;
+  color: var(--color-text);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
 }
 
 .navbar a:hover {
-  background-color: #555;
+  background-color: var(--color-bg);
 }
 
+/* Exemplo de uso das variáveis nos cards */
 .card {
-  color: black;
+  background: var(--color-card);
+  color: var(--color-text);
+  border-radius: 12px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(30, 34, 40, 0.04);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0px;
   border-radius: 0px;
   padding-top: 0rem;
   margin-bottom: 0rem;
@@ -144,14 +205,15 @@ input[type="password"], input[type="text"], input[type="email"], input[type="tel
     width: 90%;
     padding: 20px;
     border-radius: 15px;
+  border-radius: 3px;
 }
 
 .card svg.lucide.lucide-file-text {
-    stroke: #333;
+  stroke: var(--color-primary);
 }
 
 .card svg.lucide.lucide-users {
-    stroke: #333;
+  stroke: var(--color-primary);
 }
 
 @media (prefers-color-scheme: light) {

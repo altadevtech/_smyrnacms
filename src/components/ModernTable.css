@@ -1,0 +1,26 @@
+/* ModernTable minimalista, só com variáveis de tema */
+
+.table-loading {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.table-loading .spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.table-loading .loading-text {
+  margin-left: 1rem;
+  color: var(--color-accent);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

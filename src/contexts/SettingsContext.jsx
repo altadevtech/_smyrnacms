@@ -67,7 +67,12 @@ export const SettingsProvider = ({ children }) => {
   }, [settings.theme])
 
   const applyTheme = (theme) => {
-    document.documentElement.setAttribute('data-theme', theme)
+    // Remove classes antigas
+    document.body.classList.remove('theme-light', 'theme-dark', 'theme-bw')
+    // Adiciona a classe do tema atual
+    if (theme === 'light') document.body.classList.add('theme-light')
+    if (theme === 'dark') document.body.classList.add('theme-dark')
+    if (theme === 'bw') document.body.classList.add('theme-bw')
     localStorage.setItem('theme', theme)
     setSettings(prev => ({ ...prev, theme }))
   }

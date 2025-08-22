@@ -43,78 +43,65 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="dashboard">
-      <h1>Dashboard</h1>
-      <p>Bem-vindo, <strong>{user.name}</strong>!</p>
+    <div className="container" style={{ paddingTop: '2rem' }}>
+      <div className="dashboard minimal-dashboard">
+        <h1 className="dashboard-title">Dashboard</h1>
+        <p className="dashboard-welcome">Bem-vindo, <strong>{user?.name || 'Usuário'}</strong>!</p>
 
-      <div className="grid" style={{ marginTop: '2rem' }}>
-        <div className="card">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <FileText size={32} style={{ color: 'var(--primary-color)' }} />
+        <div className="dashboard-cards">
+          <div className="dashboard-card">
+            <FileText size={28} className="dashboard-card-icon" />
             <div>
-              <h3>{stats.totalPages}</h3>
-              <p>Wiki</p>
+              <div className="dashboard-card-value">{stats.totalPages}</div>
+              <div className="dashboard-card-label">Wiki</div>
             </div>
           </div>
-        </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <FileText size={32} style={{ color: 'var(--primary-color)' }} />
+          <div className="dashboard-card">
+            <FileText size={28} className="dashboard-card-icon" />
             <div>
-              <h3>{stats.totalPosts}</h3>
-              <p>Posts</p>
+              <div className="dashboard-card-value">{stats.totalPosts}</div>
+              <div className="dashboard-card-label">Posts</div>
             </div>
           </div>
-        </div>
-
-        {user.role === 'admin' && (
-          <div className="card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <Users size={32} style={{ color: 'var(--primary-color)' }} />
+          {user?.role === 'admin' && (
+            <div className="dashboard-card">
+              <Users size={28} className="dashboard-card-icon" />
               <div>
-                <h3>{stats.totalUsers}</h3>
-                <p>Usuários</p>
+                <div className="dashboard-card-value">{stats.totalUsers}</div>
+                <div className="dashboard-card-label">Usuários</div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
 
-      <div style={{ marginTop: '3rem' }}>
-        <h2>Atividade Recente</h2>
-        {stats.recentActivity.length > 0 ? (
-          <div className="card recent-activity">
-            {stats.recentActivity.map((activity, index) => (
-              <div key={index} className="activity-item" style={{ 
-                padding: '1rem 0', 
-                borderBottom: index < stats.recentActivity.length - 1 ? '1px solid var(--border-color)' : 'none' 
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Eye size={16} style={{ color: 'var(--primary-color)' }} />
+        <div className="dashboard-section">
+          <h2 className="dashboard-section-title">Atividade Recente</h2>
+          {stats.recentActivity.length > 0 ? (
+            <div className="dashboard-activity-list">
+              {stats.recentActivity.map((activity, index) => (
+                <div key={index} className="dashboard-activity-item">
+                  <Eye size={16} className="dashboard-activity-icon" />
                   <span><strong>{activity.author_name}</strong> {activity.action} "{activity.title}"</span>
-                  <small style={{ marginLeft: 'auto', color: 'var(--text-secondary)' }}>
+                  <small className="dashboard-activity-date">
                     {new Date(activity.created_at).toLocaleDateString()}
                   </small>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="card">
-            <p>Nenhuma atividade recente.</p>
-          </div>
-        )}
-      </div>
-
-      <div style={{ marginTop: '3rem' }}>
-        <h2>Ações Rápidas</h2>
-        <div className="quick-actions">
-          <a href="/admin/pages/new" className="btn btn-primary">Nova Página</a>
-          <a href="/admin/posts/new" className="btn btn-primary">Novo Post</a>
-          {user.role === 'admin' && (
-            <a href="/admin/users" className="btn">Gerenciar Usuários</a>
+              ))}
+            </div>
+          ) : (
+            <div className="dashboard-empty">Nenhuma atividade recente.</div>
           )}
+        </div>
+
+        <div className="dashboard-section">
+          <h2 className="dashboard-section-title">Ações Rápidas</h2>
+          <div className="dashboard-actions">
+            <a href="/admin/pages/new" className="dashboard-action-btn">Nova Página</a>
+            <a href="/admin/posts/new" className="dashboard-action-btn">Novo Post</a>
+            {user?.role === 'admin' && (
+              <a href="/admin/users" className="dashboard-action-btn dashboard-action-btn-secondary">Gerenciar Usuários</a>
+            )}
+          </div>
         </div>
       </div>
     </div>

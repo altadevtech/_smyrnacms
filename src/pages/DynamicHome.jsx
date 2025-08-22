@@ -1,6 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react'
+import './DynamicHome.css'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import ContentRenderer from '../components/ContentRenderer'
@@ -42,68 +43,12 @@ function DynamicHome() {
   const fetchHomepageContent = async () => {
     try {
       const response = await api.get('/settings/homepage')
-      if (response.data) {
-        setHomepageData(response.data)
-      } else {
-        setHomepageData({
-          title: 'Bem-vindo ao Smyrna CMS',
-          content: '<h2>Sistema de Gerenciamento de Conteúdo</h2><p>Este é um sistema completo para organização e publicação de conteúdo.</p>',
-          isEnabled: true
-        })
-      }
+      setHomepageData(response.data)
+      setLoading(false)
     } catch (error) {
-      console.error('Erro ao carregar conteúdo da página inicial:', error)
-      setHomepageData({
-        title: 'Bem-vindo ao Smyrna CMS',
-        content: '<h2>Sistema de Gerenciamento de Conteúdo</h2><p>Este é um sistema completo para organização e publicação de conteúdo.</p>',
-        isEnabled: true
-      })
+      setError('Erro ao carregar página inicial')
+      setLoading(false)
     }
-  }
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    })
-  }
-        
-  if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '60vh',
-        fontSize: '1.1rem',
-        color: '#64748b'
-      }}>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '1rem',
-          padding: '2rem',
-          background: '#f8fafc',
-          borderRadius: '16px',
-          border: '1px solid #e2e8f0'
-        }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            border: '3px solid #e2e8f0',
-            borderTop: '3px solid rgb(102, 234, 205)',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }}></div>
-          <p style={{ color: '#64748b', margin: '0', fontWeight: '500' }}>
-            Carregando página inicial...
-          </p>
-        </div>
-      </div>
-    )
   }
 
   // Verificar se há conteúdo personalizado (não padrão)
@@ -116,376 +61,161 @@ function DynamicHome() {
       homepageData.content.includes('Sistema de Gerenciamento de Conteúdo'))
 
   return (
-    <div style={{
-      maxWidth: '1200px',
-      margin: '0 auto',
-      padding: isMobile ? '1rem' : '2rem 1rem',
-      fontFamily: 'Arial, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-    }}>
-      
-      {/* Header com gradiente igual ao da Wiki */}
-      <div style={{
-        textAlign: 'center',
-        marginBottom: '3rem',
-        background: 'linear-gradient(135deg, rgb(102, 234, 205) 0%, rgb(75, 129, 162) 100%)',
-        padding: '4rem 2rem',
-        borderRadius: '20px',
-        color: 'white',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: '-50%',
-          right: '-20%',
-          width: '40%',
-          height: '200%',
-          background: 'rgba(255, 255, 255, 0.1)',
-          borderRadius: '50%',
-          transform: 'rotate(15deg)'
-        }}></div>
+      <div className="dynamic-home-container">
         
-        <h1 style={{
-          margin: '0 0 1rem 0',
-          fontSize: isMobile ? '2.5rem' : '3.5rem',
-          fontWeight: '700',
-          textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          position: 'relative',
-          zIndex: 1
-        }}>
-          <BookOpen 
-            size={isMobile ? 40 : 56} 
-            style={{ 
-              marginRight: '1rem', 
-              verticalAlign: 'middle',
-              filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
-            }} 
-          />
-          Wiki Nova Fibra
-        </h1>
-        
-        <p style={{
-          margin: 0,
-          fontSize: isMobile ? '1rem' : '1.25rem',
-          opacity: 0.9,
-          maxWidth: '600px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          lineHeight: 1.6,
-          position: 'relative',
-          zIndex: 1
-        }}>
-          {hasCustomContent ? 'Página inicial personalizada' : 'Sistema de gerenciamento de conhecimento colaborativo'}
-        </p>
-        
-        {isAuthenticated && (
-          <a 
-            href="/admin/profile"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              color: 'white',
-              textDecoration: 'none',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '8px',
-              border: '2px solid rgba(255, 255, 255, 0.3)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              transition: 'all 0.3s ease',
-              marginTop: '1.5rem',
-              position: 'relative',
-              zIndex: 1
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.2)'
-              e.target.style.transform = 'translateY(-2px)'
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.1)'
-              e.target.style.transform = 'translateY(0)'
-            }}
-          >
-            <Settings size={18} />
-            Configurar Página Inicial
-          </a>
-        )}
-      </div>
+        {/* Header minimalista, sem gradiente, só tema */}
+        <div className="dynamic-home-header">
+          <h1 className="dynamic-home-title">
+            <BookOpen className="dynamic-home-title-icon" size={isMobile ? 40 : 56} />
+            Wiki Nova Fibra
+          </h1>
+          <p className="dynamic-home-content">
+            {hasCustomContent ? 'Página inicial personalizada' : 'Sistema de gerenciamento de conhecimento colaborativo'}
+          </p>
+          {isAuthenticated && (
+            <a href="/admin/profile" className="btn btn-primary dynamic-home-config-btn">
+              <Settings size={18} />
+              Configurar Página Inicial
+            </a>
+          )}
+        </div>
 
-      {/* Layout de conteúdo 70/30 */}
-      <div 
-        style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '70% 30%',
-          gap: '2rem',
-          width: '100%',
-          alignItems: 'start'
-        }}
-      >
-      {/* Coluna Principal (70%) */}
-      <div 
-        style={{
-          gridColumn: isMobile ? '1' : '1',
-          background: 'white',
-          borderRadius: '16px',
-          boxShadow: '0 4px 25px rgba(0, 0, 0, 0.08)',
-          border: '1px solid #e5e7eb',
-          overflow: 'hidden',
-          minHeight: '400px',
-          padding: '2rem'
-        }}
-      >
-        {hasCustomContent ? (
-          <>
-            <div className="homepage-content">
-              <ContentRenderer content={homepageData.content} />
+        {/* Layout de conteúdo 70/30 */}
+        {/* Loading and error handling */}
+        {loading ? (
+          <div className="dynamic-home-loading">
+            <div className="dynamic-home-loading-box">
+              <div className="dynamic-home-spinner"></div>
+              <p className="dynamic-home-loading-text">Carregando...</p>
             </div>
-          </>
+          </div>
+        ) : error ? (
+          <div className="dynamic-home-error">
+            <p>{error}</p>
+          </div>
         ) : (
-          <>
-            <h1 className="homepage-title">Bem-vindo ao Smyrna CMS</h1>
-            <div className="homepage-content">
-              <h2>Sistema de Gerenciamento de Conteúdo</h2>
-              <p>Este é um sistema completo para organização e publicação de conteúdo.</p>
-              <h3>Funcionalidades:</h3>
-              <ul>
-                <li>📄 Páginas organizadas</li>
-                <li>📝 Blog integrado</li>
-                <li>👥 Gerenciamento de usuários</li>
-                <li>🎨 Interface responsiva</li>
-              </ul>
-              {isAuthenticated && (
-                <p style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#f3f4f6', borderRadius: '0.5rem' }}>
-                  💡 <strong>Administrador:</strong> <a href="/admin/profile">Configure o conteúdo da página inicial</a> no seu perfil.
-                </p>
+          <div 
+            className={`dynamic-home-layout${isMobile ? ' mobile' : ''}`}
+          >
+            <div 
+              className="dynamic-home-maincard"
+            >
+                {hasCustomContent ? (
+                  <>
+                    <div className="homepage-content">
+                      <ContentRenderer content={homepageData.content} />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h1 className="homepage-title">Bem-vindo ao Smyrna CMS</h1>
+                    <div className="homepage-content">
+                      <h2>Sistema de Gerenciamento de Conteúdo</h2>
+                      <p>Este é um sistema completo para organização e publicação de conteúdo.</p>
+                      <h3>Funcionalidades:</h3>
+                      <ul>
+                        <li>📄 Páginas organizadas</li>
+                        <li>📝 Blog integrado</li>
+                        <li>👥 Gerenciamento de usuários</li>
+                        <li>🎨 Interface responsiva</li>
+                      </ul>
+                      {isAuthenticated && (
+                        <p className="dynamic-home-admin-tip">
+                          💡 <strong>Administrador:</strong> <a href="/admin/profile">Configure o conteúdo da página inicial</a> no seu perfil.
+                        </p>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Sidebar (30%) */}
+              {!isMobile && (
+                <div 
+                  className="dynamic-home-sidebar"
+                >
+                  {/* Seção de Páginas Recentes */}
+                  <div className="dynamic-home-card">
+                    <div className="dynamic-home-card-header">
+                      <FileText size={18} />
+                      Páginas Recentes
+                    </div>
+                    <div className="dynamic-home-card-list">
+                      {recentPages.length > 0 ? (
+                        <>
+                          <div className="dynamic-home-list">
+                            {recentPages.map((page) => (
+                              <div key={page.id} className="dynamic-home-list-item">
+                                <h4 className="dynamic-home-list-title">
+                                  <a href={`/page/${page.slug}`} className="dynamic-home-list-link">
+                                    {page.title}
+                                  </a>
+                                </h4>
+                                <p className="dynamic-home-list-meta">
+                                  Atualizada em {formatDate(page.updated_at)}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="dynamic-home-list-footer">
+                            <a href="/pages" className="btn btn-secondary dynamic-home-list-btn">
+                              <ArrowRight size={14} />
+                              Ver Todas as Páginas
+                            </a>
+                          </div>
+                        </>
+                      ) : (
+                        <p className="dynamic-home-list-empty">Nenhuma página encontrada.</p>
+                      )}
+                    </div>
+                  </div>
+
+                {/* Seção de Posts Recentes */}
+                <div className="dynamic-home-card">
+                  <div className="dynamic-home-card-header">
+                    <Calendar size={18} />
+                    Posts Recentes
+                  </div>
+                  <div className="dynamic-home-card-list">
+                    {recentPosts.length > 0 ? (
+                      <>
+                        <div className="dynamic-home-list">
+                          {recentPosts.map((post) => (
+                            <div key={post.id} className="dynamic-home-list-item">
+                              <h4 className="dynamic-home-list-title">
+                                <a href={`/post/${post.id}`} className="dynamic-home-list-link">
+                                  {post.title}
+                                </a>
+                              </h4>
+                              <p className="dynamic-home-list-meta">
+                                Publicado em {formatDate(post.created_at)}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="dynamic-home-list-footer">
+                          <a href="/blog" className="btn btn-secondary dynamic-home-list-btn">
+                            <ArrowRight size={14} />
+                            Ver Todos os Posts
+                          </a>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="dynamic-home-list-empty">Nenhum post encontrado.</p>
+                    )}
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="dynamic-home-error">
+                    <p>{error}</p>
+                  </div>
+                )}
+                </div>
               )}
             </div>
-          </>
         )}
       </div>
-
-      {/* Sidebar (30%) */}
-      {!isMobile && (
-        <div 
-          style={{
-            gridColumn: '2',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem'
-          }}
-        >
-          {/* Seção de Páginas Recentes */}
-          <div style={{
-            background: 'white',
-            borderRadius: '16px',
-            boxShadow: '0 4px 25px rgba(0, 0, 0, 0.08)',
-            border: '1px solid #e5e7eb',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              background: 'linear-gradient(135deg, rgb(102, 234, 205) 0%, rgb(75, 129, 162) 100%)',
-              color: 'white',
-              padding: '1rem 1.5rem',
-              fontWeight: '600',
-              fontSize: '1rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <FileText size={18} />
-              Páginas Recentes
-            </div>
-            <div style={{ padding: '1.5rem' }}>
-              {recentPages.length > 0 ? (
-                <>
-                  <div style={{ marginBottom: '1rem' }}>
-                    {recentPages.map((page) => (
-                      <div key={page.id} style={{
-                        padding: '0.75rem 0',
-                        borderBottom: '1px solid #f1f5f9',
-                        transition: 'all 0.2s ease'
-                      }}>
-                        <h4 style={{
-                          margin: '0 0 0.25rem 0',
-                          fontSize: '0.9rem',
-                          fontWeight: '600'
-                        }}>
-                          <a 
-                            href={`/page/${page.slug}`}
-                            style={{
-                              color: '#374151',
-                              textDecoration: 'none',
-                              transition: 'color 0.2s ease'
-                            }}
-                            onMouseEnter={(e) => e.target.style.color = 'rgb(102, 234, 205)'}
-                            onMouseLeave={(e) => e.target.style.color = '#374151'}
-                          >
-                            {page.title}
-                          </a>
-                        </h4>
-                        <p style={{
-                          margin: 0,
-                          fontSize: '0.75rem',
-                          color: '#6b7280'
-                        }}>
-                          Atualizada em {formatDate(page.updated_at)}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <a 
-                      href="/pages" 
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        padding: '0.5rem 1rem',
-                        background: '#f8fafc',
-                        color: '#374151',
-                        textDecoration: 'none',
-                        borderRadius: '8px',
-                        fontSize: '0.8rem',
-                        fontWeight: '500',
-                        transition: 'all 0.2s ease',
-                        border: '1px solid #e2e8f0'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.background = 'rgb(102, 234, 205)'
-                        e.target.style.color = 'white'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.background = '#f8fafc'
-                        e.target.style.color = '#374151'
-                      }}
-                    >
-                      <ArrowRight size={14} />
-                      Ver Todas as Páginas
-                    </a>
-                  </div>
-                </>
-              ) : (
-                <p style={{ margin: 0, color: '#6b7280', fontSize: '0.9rem' }}>
-                  Nenhuma página encontrada.
-                </p>
-              )}
-            </div>
-          </div>
-
-        {/* Seção de Posts Recentes */}
-        <div style={{
-          background: 'white',
-          borderRadius: '16px',
-          boxShadow: '0 4px 25px rgba(0, 0, 0, 0.08)',
-          border: '1px solid #e5e7eb',
-          overflow: 'hidden'
-        }}>
-          <div style={{
-            background: 'linear-gradient(135deg, rgb(102, 234, 205) 0%, rgb(75, 129, 162) 100%)',
-            color: 'white',
-            padding: '1rem 1.5rem',
-            fontWeight: '600',
-            fontSize: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}>
-            <Calendar size={18} />
-            Posts Recentes
-          </div>
-          <div style={{ padding: '1.5rem' }}>
-            {recentPosts.length > 0 ? (
-              <>
-                <div style={{ marginBottom: '1rem' }}>
-                  {recentPosts.map((post) => (
-                    <div key={post.id} style={{
-                      padding: '0.75rem 0',
-                      borderBottom: '1px solid #f1f5f9',
-                      transition: 'all 0.2s ease'
-                    }}>
-                      <h4 style={{
-                        margin: '0 0 0.25rem 0',
-                        fontSize: '0.9rem',
-                        fontWeight: '600'
-                      }}>
-                        <a 
-                          href={`/post/${post.id}`}
-                          style={{
-                            color: '#374151',
-                            textDecoration: 'none',
-                            transition: 'color 0.2s ease'
-                          }}
-                          onMouseEnter={(e) => e.target.style.color = 'rgb(102, 234, 205)'}
-                          onMouseLeave={(e) => e.target.style.color = '#374151'}
-                        >
-                          {post.title}
-                        </a>
-                      </h4>
-                      <p style={{
-                        margin: 0,
-                        fontSize: '0.75rem',
-                        color: '#6b7280'
-                      }}>
-                        Publicado em {formatDate(post.created_at)}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <a 
-                    href="/blog" 
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.5rem 1rem',
-                      background: '#f8fafc',
-                      color: '#374151',
-                      textDecoration: 'none',
-                      borderRadius: '8px',
-                      fontSize: '0.8rem',
-                      fontWeight: '500',
-                      transition: 'all 0.2s ease',
-                      border: '1px solid #e2e8f0'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = 'rgb(102, 234, 205)'
-                      e.target.style.color = 'white'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = '#f8fafc'
-                      e.target.style.color = '#374151'
-                    }}
-                  >
-                    <ArrowRight size={14} />
-                    Ver Todos os Posts
-                  </a>
-                </div>
-              </>
-            ) : (
-              <p style={{ margin: 0, color: '#6b7280', fontSize: '0.9rem' }}>
-                Nenhum post encontrado.
-              </p>
-            )}
-          </div>
-        </div>
-
-        {error && (
-          <div style={{
-            background: '#fee2e2',
-            color: '#991b1b',
-            padding: '1rem',
-            borderRadius: '12px',
-            border: '1px solid #fecaca'
-          }}>
-            <p style={{ margin: 0 }}>{error}</p>
-          </div>
-        )}
-        </div>
-      )}
-    </div>
-    </div>
   )
 }
 export default DynamicHome;

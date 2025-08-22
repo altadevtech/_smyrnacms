@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './Widget.css'
 import api from '../services/api'
 import { 
   Image, 
@@ -62,29 +63,21 @@ const Widget = ({ type, data, config = {} }) => {
     switch (type) {
       case 'banner':
         return (
-          <div className="widget-banner" style={{ height: config.height || '300px' }}>
+          <div className="widget-banner">
             {config.imageUrl ? (
               <img 
                 src={config.imageUrl} 
                 alt={config.title || 'Banner'} 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                className="banner-image"
               />
             ) : config.htmlContent ? (
               <div 
                 dangerouslySetInnerHTML={{ __html: config.htmlContent }}
-                style={{ width: '100%', height: '100%' }}
+                className="banner-html-content"
               />
             ) : (
-              <div className="banner-placeholder" style={{ 
-                width: '100%', 
-                height: '100%', 
-                backgroundColor: '#f0f0f0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#666'
-              }}>
-                <div style={{ textAlign: 'center' }}>
+              <div className="banner-placeholder">
+                <div className="banner-placeholder-center">
                   <MonitorSpeaker size={48} />
                   <p>{config.title || 'Banner'}</p>
                 </div>
@@ -202,33 +195,16 @@ const Widget = ({ type, data, config = {} }) => {
               <img 
                 src={config.imageUrl || config.url} 
                 alt={config.alt || config.title || 'Imagem'} 
-                style={{ 
-                  maxWidth: '100%', 
-                  height: 'auto',
-                  borderRadius: config.borderRadius || '0px'
-                }}
+                className="widget-image-img"
               />
             ) : (
-              <div className="image-placeholder" style={{ 
-                padding: '60px 20px',
-                backgroundColor: '#f8f9fa',
-                textAlign: 'center',
-                border: '2px dashed #dee2e6',
-                borderRadius: '8px'
-              }}>
-                <Image size={48} style={{ color: '#6c757d' }} />
-                <p style={{ color: '#6c757d', marginTop: '16px' }}>Imagem não definida</p>
+              <div className="image-placeholder">
+                <Image size={48} className="image-placeholder-icon" />
+                <p className="image-placeholder-text">Imagem não definida</p>
               </div>
             )}
             {config.caption && (
-              <p className="image-caption" style={{ 
-                fontSize: '14px', 
-                color: '#666',
-                marginTop: '8px',
-                fontStyle: 'italic'
-              }}>
-                {config.caption}
-              </p>
+              <p className="image-caption">{config.caption}</p>
             )}
           </div>
         )
@@ -238,11 +214,11 @@ const Widget = ({ type, data, config = {} }) => {
           <div className="widget-video">
             {config.title && <h3>{config.title}</h3>}
             {config.videoUrl ? (
-              <div className="video-container" style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+              <div className="video-container">
                 {config.videoUrl.includes('youtube.com') || config.videoUrl.includes('youtu.be') ? (
                   <iframe
                     src={config.videoUrl.replace('watch?v=', 'embed/')}
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    className="video-iframe"
                     frameBorder="0"
                     allowFullScreen
                     title={config.title || 'Vídeo'}
@@ -250,7 +226,7 @@ const Widget = ({ type, data, config = {} }) => {
                 ) : (
                   <video 
                     controls 
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    className="video-element"
                   >
                     <source src={config.videoUrl} type="video/mp4" />
                     Seu navegador não suporta vídeo.
@@ -258,16 +234,9 @@ const Widget = ({ type, data, config = {} }) => {
                 )}
               </div>
             ) : (
-              <div className="video-placeholder" style={{ 
-                padding: '60px 20px',
-                backgroundColor: '#000',
-                textAlign: 'center',
-                borderRadius: '8px',
-                color: '#fff',
-                aspectRatio: '16/9'
-              }}>
-                <Play size={48} />
-                <p style={{ marginTop: '16px' }}>Vídeo não definido</p>
+              <div className="video-placeholder">
+                <Play size={48} className="video-placeholder-icon" />
+                <p className="video-placeholder-text">Vídeo não definido</p>
               </div>
             )}
           </div>
@@ -280,19 +249,13 @@ const Widget = ({ type, data, config = {} }) => {
             {config.htmlContent ? (
               <div dangerouslySetInnerHTML={{ __html: config.htmlContent }} />
             ) : config.textContent ? (
-              <div style={{ whiteSpace: 'pre-wrap' }}>
+              <div className="widget-content-text">
                 {config.textContent}
               </div>
             ) : (
-              <div className="content-placeholder" style={{ 
-                padding: '40px 20px',
-                backgroundColor: '#f8f9fa',
-                textAlign: 'center',
-                border: '1px dashed #dee2e6',
-                borderRadius: '8px'
-              }}>
-                <FileText size={32} style={{ color: '#6c757d' }} />
-                <p style={{ color: '#6c757d', marginTop: '12px' }}>Conteúdo não definido</p>
+              <div className="content-placeholder">
+                <FileText size={32} className="content-placeholder-icon" />
+                <p className="content-placeholder-text">Conteúdo não definido</p>
               </div>
             )}
           </div>
@@ -308,7 +271,7 @@ const Widget = ({ type, data, config = {} }) => {
   }
 
   return (
-    <div className={`widget widget-${type}`} style={{ marginBottom: '2rem' }}>
+  <div className={`widget widget-${type}`}>
       {renderWidget()}
     </div>
   )

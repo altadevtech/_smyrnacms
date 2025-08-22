@@ -8,7 +8,6 @@
 
 .editor-header {
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 2rem 0;
   margin-bottom: 2rem;
@@ -76,7 +75,6 @@
     0 10px 25px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
 }
@@ -320,7 +318,6 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;

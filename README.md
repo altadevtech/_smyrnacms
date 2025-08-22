@@ -1,6 +1,6 @@
-# Sistema WIKI leve, flexível e eficiente com React e Node.js
+# SmirnaCMS: O sistema gerenciador de conteúdo leve, flexível e eficiente com React e Node.js
 
-Este projeto nasceu como um CMS simples e robusto, desenvolvido com React no frontend e Node.js no backend, utilizando SQLite como banco de dados local. Agora, evolui com uma nova proposta: tornar-se uma plataforma WIKI moderna, ideal para equipes, comunidades ou projetos que precisam documentar e compartilhar conhecimento de forma estruturada, colaborativa e segura.
+Este projeto nasceu como um CMS simples e robusto, desenvolvido com React no frontend e Node.js no backend, utilizando SQLite como banco de dados local. Agora, evolui com uma nova proposta: tornar-se a plataforma ideal para equipes, comunidades ou projetos que precisam gerenciar conteúdo de páginas web, com facilidade e segurança.
 
 Construído com tecnologias consolidadas e boas práticas de desenvolvimento, o sistema mantém seu compromisso com performance, leveza e segurança, enquanto incorpora recursos essenciais para uma WIKI funcional e escalável.
 

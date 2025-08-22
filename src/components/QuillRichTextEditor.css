@@ -1,0 +1,94 @@
+/* QuillRichTextEditor.css - minimalista, theme-driven, sem border-radius, shadow ou gradiente */
+
+.quill-rich-text-editor {
+  border: 1px solid var(--color-border, #d1d5db);
+  background: var(--color-bg-main, #fff);
+  font-family: var(--font-family, 'Montserrat', sans-serif);
+  line-height: 1.7;
+}
+
+.editor-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border, #ddd);
+  background: var(--color-bg-hover, #f8f9fa);
+}
+
+.tab-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--color-text-secondary, #334155);
+  transition: background 0.2s, border-bottom 0.2s;
+}
+.tab-button.active,
+.tab-button:hover {
+  background: var(--color-bg-main, #fff);
+  border-bottom: 2px solid var(--color-primary, #2563eb);
+  color: var(--color-text-main, #1e293b);
+}
+
+.widget-toolbar {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--color-border, #ddd);
+  background: var(--color-bg-toolbar, #f0f9ff);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.widget-toolbar .widget-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--color-bg-widget, #dbeafe);
+  border: 1px solid var(--color-border-widget, #93c5fd);
+  color: var(--color-primary, #1e40af);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.widget-toolbar .widget-btn:hover {
+  background: var(--color-bg-widget-hover, #bfdbfe);
+  border-color: var(--color-primary, #60a5fa);
+}
+
+.editor-content {
+  margin-top: 0;
+}
+
+.ql-container {
+  border: none !important;
+}
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid var(--color-border, #e5e7eb) !important;
+}
+.ql-editor {
+  min-height: 350px;
+}
+
+.html-editor {
+  width: 100%;
+  min-height: 400px;
+  padding: 1rem;
+  border: 1px solid var(--color-border, #ddd);
+  outline: none;
+  font-family: Monaco, Menlo, 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  background: var(--color-bg-main, #fff);
+  color: var(--color-text-main, #1e293b);
+}
+
+.preview-content {
+  min-height: 400px;
+  padding: 1rem;
+  background: var(--color-bg-hover, #fafafa);
+  border: 1px solid var(--color-border, #e5e7eb);
+}

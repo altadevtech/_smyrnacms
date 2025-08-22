@@ -1,0 +1,95 @@
+/* Widget minimalista, só com variáveis de tema */
+
+.widget {
+  margin-bottom: 2rem;
+  background: var(--color-card);
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(30, 34, 40, 0.05);
+  padding: 1.5rem;
+}
+
+.widget-banner {
+  width: 100%;
+  height: 300px;
+  background: var(--color-bg-alt);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.banner-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg-alt);
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border-radius: 3px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 200px;
+  background: var(--color-bg-alt);
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.image-caption {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.video-placeholder {
+  width: 100%;
+  height: 200px;
+  background: var(--color-bg-alt);
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+.content-placeholder {
+  width: 100%;
+  min-height: 80px;
+  background: var(--color-bg-alt);
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: 1rem;
+  margin-top: 1rem;
+}

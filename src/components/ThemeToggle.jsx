@@ -8,7 +8,7 @@ const ThemeToggle = ({ variant = 'button', size = 'default' }) => {
   const themes = [
     { id: 'light', label: 'Claro', icon: Sun },
     { id: 'dark', label: 'Escuro', icon: Moon },
-    // { id: 'auto', label: 'Auto', icon: Monitor } // Para implementação futura
+    { id: 'bw', label: 'Preto e Branco', icon: Monitor }
   ]
 
   if (variant === 'select') {
@@ -59,19 +59,20 @@ const ThemeToggle = ({ variant = 'button', size = 'default' }) => {
     )
   }
 
-  // Default: toggle button
-  const currentTheme = themes.find(t => t.id === settings.theme) || themes[0]
-  const Icon = currentTheme.icon
+  // Default: toggle button (circular)
+  const currentThemeIndex = themes.findIndex(t => t.id === settings.theme)
+  const nextTheme = themes[(currentThemeIndex + 1) % themes.length]
+  const Icon = nextTheme.icon
 
   return (
     <button
       className={`theme-toggle-btn ${size}`}
-      onClick={() => applyTheme(settings.theme === 'light' ? 'dark' : 'light')}
-      title={`Mudar para tema ${settings.theme === 'light' ? 'escuro' : 'claro'}`}
-      aria-label={`Tema atual: ${currentTheme.label}. Clique para alternar`}
+      onClick={() => applyTheme(nextTheme.id)}
+      title={`Mudar para tema ${nextTheme.label}`}
+      aria-label={`Tema atual: ${settings.theme}. Clique para alternar para ${nextTheme.label}`}
     >
       <Icon size={size === 'small' ? 16 : 20} />
-      {variant === 'button-text' && <span>{currentTheme.label}</span>}
+      {variant === 'button-text' && <span>{nextTheme.label}</span>}
     </button>
   )
 }

@@ -1,0 +1,39 @@
+/* Minimal, theme-driven CSS for MainMenuSimple.jsx */
+
+.main-menu {
+  width: 100%;
+}
+.main-menu-list {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.main-menu-list.vertical {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.main-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: var(--color-text-secondary, #6b7280);
+  border-radius: 0;
+  background: transparent;
+  transition: color 0.2s, background 0.2s;
+  font-size: 0.9rem;
+}
+.main-menu-list.vertical .main-menu-link {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+.main-menu-link:hover,
+.main-menu-link:focus {
+  color: var(--color-accent, #286c5d);
+  background: var(--color-accent-bg, rgba(40, 108, 93, 0.08));
+  outline: none;
+}

@@ -1,33 +1,25 @@
-import React from 'react'
-import PaginaSidebar from './WikiSidebar'
-import PaginaBreadcrumbs from './WikiBreadcrumbs'
+import React from 'react';
+import PaginaSidebar from './WikiSidebar';
+import PaginaBreadcrumbs from './WikiBreadcrumbs';
+import './WikiLayout.css';
 
 const PaginaLayout = ({ children, category, page }) => {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#ffffff' }}>
+    <div className="wiki-layout">
       {/* Sidebar */}
-  <PaginaSidebar />
-      
+      <div className="wiki-layout-sidebar">
+        <PaginaSidebar />
+      </div>
       {/* Main Content */}
-      <div style={{ 
-        flex: 1, 
-        padding: '1rem 2rem',
-        maxWidth: 'calc(100vw - 280px)',
-        overflowX: 'auto'
-      }}>
-  <PaginaBreadcrumbs category={category} page={page} />
-        
+      <div className="wiki-layout-main">
+        <PaginaBreadcrumbs category={category} page={page} />
         {/* Content Area */}
-        <div style={{
-          maxWidth: '800px',
-          lineHeight: '1.6',
-          fontSize: '1rem'
-        }}>
+        <div className="wiki-layout-content">
           {children}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PaginaLayout
+export default PaginaLayout;

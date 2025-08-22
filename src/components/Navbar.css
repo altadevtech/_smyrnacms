@@ -1,49 +1,124 @@
-/* Modern Navbar Styles */
-.user-menu-container {
+/* Central content container for admin and frontend */
+.main-content-container, .admin-content, .frontend-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;               
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .main-content-container, .admin-content, .frontend-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Minimalist Navbar for all themes */
+.navbar {
+  width: 100%;
+  background: var(--color-bg-alt);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  z-index: 1000;
+}
+
+.navbar .container, .navbar-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.navbar a, .navbar button, .navbar span {
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+}
+
+.navbar a:hover, .navbar button:hover {
+  background: var(--color-bg);
+  color: var(--color-accent);
+}
+
+.navbar .active, .navbar a[aria-current="page"] {
+  color: var(--color-accent);
+  background: var(--color-bg);
+}
+
+.navbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.navbar .brand img {
+  height: 40px;
+  width: auto;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .user-menu-container {
   position: relative;
 }
 
-/* Mobile Responsive Fixes */
+.navbar .user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  min-width: 200px;
+  z-index: 1001;
+}
+
+.navbar .user-menu a, .navbar .user-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+}
+.navbar .user-menu a:last-child, .navbar .user-menu button:last-child {
+  border-bottom: none;
+}
+
 @media (max-width: 768px) {
-  .desktop-menu {
-    display: none !important;
+  .navbar .container, .navbar-container {
+    padding: 0 1rem;
   }
-  
-  .mobile-menu-toggle {
-    display: flex !important;
+  .navbar ul {
+    flex-direction: column;
+    gap: 0.25rem;
   }
-}
-
-@media (min-width: 769px) {
-  .mobile-menu-toggle {
-    display: none !important;
-  }
-}
-
-/* Hover effects for interactive elements */
-.navbar-menu-item:hover {
-  color: #667eea !important;
-  background: rgba(102, 126, 234, 0.05) !important;
-}
-
-.user-menu-trigger:hover {
-  background: rgba(102, 126, 234, 0.15) !important;
-}
-
-.mobile-menu-item:hover {
-  background: rgba(102, 126, 234, 0.05) !important;
-}
-
-/* Smooth transitions */
-* {
-  transition: all 0.3s ease;
-}
-
-/* Override any conflicting styles */
-.navbar-new {
-  all: unset;
-}
-
-.navbar-new * {
-  box-sizing: border-box;
 }

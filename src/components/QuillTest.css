@@ -1,0 +1,26 @@
+/* QuillTest.css - minimalista, theme-driven, sem border-radius, shadow ou gradiente */
+
+.quill-test-container {
+  padding: 2rem;
+  font-family: var(--font-family, 'Montserrat', sans-serif);
+  line-height: 1.7;
+}
+
+.quill-test-editor {
+  margin-bottom: 1rem;
+}
+
+.quill-test-quill {
+  height: 200px;
+  margin-bottom: 42px;
+}
+
+.quill-test-preview {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--color-bg-hover, #f5f5f5);
+}
+
+.quill-test-preview h3 {
+  margin-top: 0;
+}

@@ -232,7 +232,7 @@ const Menus = () => {
   }
 
   return (
-    <div>
+    <div className="container" style={{ paddingTop: '2rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h1>Gerenciar Menus</h1>
         <button

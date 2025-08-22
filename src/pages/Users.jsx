@@ -91,7 +91,7 @@ const Users = () => {
   }
 
   return (
-    <div>
+    <div className="container" style={{ paddingTop: '2rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h1>Usuários</h1>
         <button 

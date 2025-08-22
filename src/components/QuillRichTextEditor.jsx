@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import { Eye, Code, Edit } from 'lucide-react'
-import ContentRenderer from './ContentRenderer'
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { Eye, Code, Edit } from 'lucide-react';
+import ContentRenderer from './ContentRenderer';
+import './QuillRichTextEditor.css';
 
 const QuillRichTextEditor = ({ value, onChange, placeholder = "Digite o conteúdo..." }) => {
   const [activeMode, setActiveMode] = useState('visual') // 'visual', 'html', 'preview'
@@ -91,75 +92,32 @@ const QuillRichTextEditor = ({ value, onChange, placeholder = "Digite o conteúd
   return (
     <div className="quill-rich-text-editor">
       {/* Barra de abas */}
-      <div className="editor-tabs" style={{ 
-        display: 'flex', 
-        borderBottom: '1px solid #ddd',
-        backgroundColor: '#f8f9fa'
-      }}>
+      <div className="editor-tabs">
         <button
           type="button"
-          className={`tab-button ${activeMode === 'visual' ? 'active' : ''}`}
+          className={`tab-button${activeMode === 'visual' ? ' active' : ''}`}
           onClick={() => setActiveMode('visual')}
-          style={{
-            padding: '0.5rem 1rem',
-            border: 'none',
-            backgroundColor: activeMode === 'visual' ? 'white' : 'transparent',
-            borderBottom: activeMode === 'visual' ? '2px solid #2563eb' : 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}
         >
           <Edit size={16} /> Visual
         </button>
         <button
           type="button"
-          className={`tab-button ${activeMode === 'html' ? 'active' : ''}`}
+          className={`tab-button${activeMode === 'html' ? ' active' : ''}`}
           onClick={() => setActiveMode('html')}
-          style={{
-            padding: '0.5rem 1rem',
-            border: 'none',
-            backgroundColor: activeMode === 'html' ? 'white' : 'transparent',
-            borderBottom: activeMode === 'html' ? '2px solid #2563eb' : 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}
         >
           <Code size={16} /> HTML
         </button>
         <button
           type="button"
-          className={`tab-button ${activeMode === 'preview' ? 'active' : ''}`}
+          className={`tab-button${activeMode === 'preview' ? ' active' : ''}`}
           onClick={() => setActiveMode('preview')}
-          style={{
-            padding: '0.5rem 1rem',
-            border: 'none',
-            backgroundColor: activeMode === 'preview' ? 'white' : 'transparent',
-            borderBottom: activeMode === 'preview' ? '2px solid #2563eb' : 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}
         >
           <Eye size={16} /> Preview
         </button>
       </div>
-
       {/* Toolbar de widgets */}
-      <div className="widget-toolbar" style={{
-        padding: '0.5rem',
-        borderBottom: '1px solid #ddd',
-        backgroundColor: '#f0f9ff',
-        display: 'flex',
-        gap: '0.5rem',
-        flexWrap: 'wrap',
-        alignItems: 'center'
-      }}>
-        <span style={{ fontSize: '0.875rem', fontWeight: 'bold', color: '#1e40af' }}>Widgets:</span>
+      <div className="widget-toolbar">
+        <span className="widget-toolbar-label">Widgets:</span>
         <button type="button" onClick={() => insertWidget('banner')} className="widget-btn">
           Banner
         </button>
@@ -182,7 +140,6 @@ const QuillRichTextEditor = ({ value, onChange, placeholder = "Digite o conteúd
           HTML
         </button>
       </div>
-
       {/* Área do editor */}
       <div className="editor-content">
         {/* Modo Visual - React Quill */}
@@ -195,89 +152,27 @@ const QuillRichTextEditor = ({ value, onChange, placeholder = "Digite o conteúd
             placeholder={placeholder}
             modules={modules}
             formats={formats}
-            style={{
-              height: '400px',
-              marginBottom: '42px' // Espaço para a toolbar do quill
-            }}
+            style={{ height: '400px', marginBottom: '42px' }}
           />
         )}
-
         {/* Modo HTML */}
         {activeMode === 'html' && (
           <textarea
             value={content}
             onChange={handleHtmlChange}
             className="html-editor"
-            style={{
-              width: '100%',
-              minHeight: '400px',
-              padding: '1rem',
-              border: '1px solid #ddd',
-              borderRadius: '0 0 4px 4px',
-              outline: 'none',
-              fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
-              fontSize: '14px',
-              lineHeight: '1.5',
-              resize: 'vertical'
-            }}
             placeholder={placeholder}
           />
         )}
-
         {/* Modo Preview */}
         {activeMode === 'preview' && (
-          <div className="preview-content" style={{
-            minHeight: '400px',
-            padding: '1rem',
-            backgroundColor: '#fafafa',
-            border: '1px solid #e5e7eb',
-            borderRadius: '0 0 4px 4px'
-          }}>
+          <div className="preview-content">
             <ContentRenderer content={content} />
           </div>
         )}
       </div>
-
-      {/* CSS interno para os estilos dos botões */}
-      <style>{`
-        .widget-btn {
-          font-size: 0.75rem;
-          padding: 0.25rem 0.5rem;
-          background: #dbeafe;
-          border: 1px solid #93c5fd;
-          color: #1e40af;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        
-        .widget-btn:hover {
-          background: #bfdbfe;
-          border-color: #60a5fa;
-        }
-        
-        .quill-rich-text-editor {
-          border: 1px solid #d1d5db;
-          border-radius: 6px;
-          overflow: hidden;
-          background: white;
-        }
-        
-        .quill-rich-text-editor .ql-container {
-          border: none;
-        }
-        
-        .quill-rich-text-editor .ql-toolbar {
-          border: none;
-          border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .quill-rich-text-editor .ql-editor {
-          min-height: 350px;
-        }
-      `}</style>
     </div>
-  )
+  );
 }
 
 export default QuillRichTextEditor

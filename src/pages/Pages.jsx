@@ -53,198 +53,53 @@ const Pages = () => {
   }
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-  <h1><FileText size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} />Páginas</h1>
+    <div className="container" style={{ paddingTop: '2rem' }}>
+      <div className="pages-header">
+        <h1><FileText size={24} className="pages-header-icon" />Páginas</h1>
         <Link to="/admin/pages/new" className="btn btn-primary">
-          <Plus size={18} style={{ verticalAlign: 'middle' }} /> Nova Pagina
+          <Plus size={18} className="pages-header-icon" /> Nova Pagina
         </Link>
       </div>
 
       {pages.length > 0 ? (
-        <div className="card" style={{
-          background: 'white',
-          borderRadius: '16px',
-          boxShadow: '0 4px 25px rgba(0, 0, 0, 0.08)',
-          border: '1px solid #e5e7eb',
-          overflow: 'hidden',
-          marginBottom: '2rem'
-        }}>
+        <div className="card">
           <div className="table-responsive">
-            <table className="table" style={{
-              width: '100%',
-              borderCollapse: 'separate',
-              borderSpacing: '0',
-              margin: '0',
-              background: 'white',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-              border: '1px solid #e5e7eb'
-            }}>
-            <thead style={{
-              background: 'linear-gradient(135deg, rgb(102, 234, 205) 0%, rgb(75, 129, 162) 100%)',
-              color: 'white'
-            }}>
+            <table className="table">
+            <thead>
               <tr>
-                <th style={{
-                  padding: '1.25rem 1.5rem',
-                  fontWeight: '600',
-                  fontSize: '0.9rem',
-                  textAlign: 'left',
-                  letterSpacing: '0.5px',
-                  border: 'none',
-                  color: 'white',
-                  textTransform: 'uppercase'
-                }}>Título</th>
-                <th style={{
-                  padding: '1.25rem 1.5rem',
-                  fontWeight: '600',
-                  fontSize: '0.9rem',
-                  textAlign: 'left',
-                  letterSpacing: '0.5px',
-                  border: 'none',
-                  color: 'white',
-                  textTransform: 'uppercase'
-                }}>Status</th>
-                <th style={{
-                  padding: '1.25rem 1.5rem',
-                  fontWeight: '600',
-                  fontSize: '0.9rem',
-                  textAlign: 'left',
-                  letterSpacing: '0.5px',
-                  border: 'none',
-                  color: 'white',
-                  textTransform: 'uppercase'
-                }}>Autor</th>
-                <th className="hide-mobile" style={{
-                  padding: '1.25rem 1.5rem',
-                  fontWeight: '600',
-                  fontSize: '0.9rem',
-                  textAlign: 'left',
-                  letterSpacing: '0.5px',
-                  border: 'none',
-                  color: 'white',
-                  textTransform: 'uppercase'
-                }}>Atualização</th>
-                <th style={{
-                  padding: '1.25rem 1.5rem',
-                  fontWeight: '600',
-                  fontSize: '0.9rem',
-                  textAlign: 'left',
-                  letterSpacing: '0.5px',
-                  border: 'none',
-                  color: 'white',
-                  textTransform: 'uppercase'
-                }}>Ações</th>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Autor</th>
+                <th className="hide-mobile">Atualização</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {pages.map(page => (
-                <tr key={page.id} style={{
-                  transition: 'all 0.3s ease',
-                  borderBottom: '1px solid #f1f5f9',
-                  background: 'white'
-                }}>
-                  <td style={{
-                    padding: '1.25rem 1.5rem',
-                    fontSize: '0.9rem',
-                    color: '#374151',
-                    border: 'none',
-                    verticalAlign: 'middle',
-                    borderRight: '1px solid #f1f5f9'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <tr key={page.id}>
+                  <td>
+                    <div className="pages-title-row">
                       <strong>{page.title}</strong>
                     </div>
                     {page.template_name && (
-                      <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }}>
+                      <div className="pages-template-name">
                         Template: {page.template_name}
                       </div>
                     )}
                   </td>
-                  <td style={{
-                    padding: '1.25rem 1.5rem',
-                    fontSize: '0.9rem',
-                    color: '#374151',
-                    border: 'none',
-                    verticalAlign: 'middle',
-                    borderRight: '1px solid #f1f5f9'
-                  }}>
-                    <span 
-                      className={`status-badge ${page.status}`}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        padding: '0.375rem 0.875rem',
-                        borderRadius: '25px',
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                        minWidth: '80px',
-                        justifyContent: 'center',
-                        background: page.status === 'published' 
-                          ? 'linear-gradient(135deg, #10b981, #059669)' 
-                          : 'linear-gradient(135deg, #f59e0b, #d97706)',
-                        color: 'white',
-                        boxShadow: page.status === 'published' 
-                          ? '0 2px 8px rgba(16, 185, 129, 0.3)' 
-                          : '0 2px 8px rgba(245, 158, 11, 0.3)'
-                      }}
-                    >
+                  <td>
+                    <span className={`status-badge ${page.status}`}>
                       {page.status === 'published' ? 'Publicada' : 'Rascunho'}
                     </span>
                   </td>
-                  <td style={{
-                    padding: '1.25rem 1.5rem',
-                    fontSize: '0.9rem',
-                    color: '#374151',
-                    border: 'none',
-                    verticalAlign: 'middle',
-                    borderRight: '1px solid #f1f5f9'
-                  }}>{page.author_name}</td>
-                  <td className="hide-mobile" style={{
-                    padding: '1.25rem 1.5rem',
-                    fontSize: '0.9rem',
-                    color: '#374151',
-                    border: 'none',
-                    verticalAlign: 'middle',
-                    borderRight: '1px solid #f1f5f9'
-                  }}>{new Date(page.updated_at).toLocaleDateString('pt-BR')}</td>
-                  <td style={{
-                    padding: '1.25rem 1.5rem',
-                    fontSize: '0.9rem',
-                    color: '#374151',
-                    border: 'none',
-                    verticalAlign: 'middle'
-                  }}>
-                    <div className="action-buttons" style={{
-                      display: 'flex',
-                      gap: '0.5rem',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
+                  <td>{page.author_name}</td>
+                  <td className="hide-mobile">{new Date(page.updated_at).toLocaleDateString('pt-BR')}</td>
+                  <td>
+                    <div className="action-buttons">
                       <button
                         onClick={() => toggleStatus(page.id, page.status)}
                         className="action-btn view"
                         title={page.status === 'published' ? 'Despublicar' : 'Publicar'}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '38px',
-                          height: '38px',
-                          border: '2px solid #059669',
-                          borderRadius: '10px',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          fontSize: '0.9rem',
-                          textDecoration: 'none',
-                          background: 'linear-gradient(135deg, #10b981, #059669)',
-                          color: 'white'
-                        }}
                       >
                         {page.status === 'published' ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
@@ -252,21 +107,6 @@ const Pages = () => {
                         to={`/admin/pages/${page.id}/versions`} 
                         className="action-btn info"
                         title="Histórico de versões"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '38px',
-                          height: '38px',
-                          border: '2px solid #0ea5e9',
-                          borderRadius: '10px',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          fontSize: '0.9rem',
-                          textDecoration: 'none',
-                          background: 'linear-gradient(135deg, #06b6d4, #0ea5e9)',
-                          color: 'white'
-                        }}
                       >
                         <History size={16} />
                       </Link>
@@ -274,21 +114,6 @@ const Pages = () => {
                         to={`/admin/pages/edit/${page.id}`} 
                         className="action-btn edit"
                         title="Editar página"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '38px',
-                          height: '38px',
-                          border: '2px solid #1d4ed8',
-                          borderRadius: '10px',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          fontSize: '0.9rem',
-                          textDecoration: 'none',
-                          background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                          color: 'white'
-                        }}
                       >
                         <Edit size={16} />
                       </Link>
@@ -296,21 +121,6 @@ const Pages = () => {
                         onClick={() => handleDelete(page.id)}
                         className="action-btn delete"
                         title="Excluir página"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '38px',
-                          height: '38px',
-                          border: '2px solid #dc2626',
-                          borderRadius: '10px',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s ease',
-                          fontSize: '0.9rem',
-                          textDecoration: 'none',
-                          background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                          color: 'white'
-                        }}
                       >
                         <Trash2 size={16} />
                       </button>

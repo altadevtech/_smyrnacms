@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import api from '../services/api'
-import { 
-  ChevronDown, ChevronRight, Search, Tag, 
-  FileText, Home, Folder, FolderOpen 
-} from 'lucide-react'
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import api from '../services/api';
+import { ChevronDown, ChevronRight, Search, Tag, FileText, Home, Folder, FolderOpen } from 'lucide-react';
+import './WikiSidebar.css';
 
 const PaginaSidebar = () => {
   const [categories, setCategories] = useState([])
@@ -87,263 +85,136 @@ const PaginaSidebar = () => {
   }
 
   return (
-    <div style={{ 
-      width: '280px', 
-      height: '100vh', 
-      overflowY: 'auto',
-      borderRight: '1px solid #e5e7eb',
-      backgroundColor: '#f9fafb',
-      padding: '1rem'
-    }}>
+    <div className="wiki-sidebar">
       {/* Header */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h2 style={{ 
-          margin: '0 0 1rem 0', 
-          fontSize: '1.25rem',
-          display: 'flex',
-          alignItems: 'center'
-        }}>
-          <FileText size={20} style={{ marginRight: '0.5rem' }} />
+      <div className="wiki-sidebar-header">
+        <h2 className="wiki-sidebar-title">
+          <FileText size={20} className="wiki-sidebar-title-icon" />
           Navegação de Páginas
         </h2>
-
-        {/* Search */}
-        <div style={{ position: 'relative' }}>
-          <Search size={16} style={{ 
-            position: 'absolute', 
-            left: '0.75rem', 
-            top: '50%', 
-            transform: 'translateY(-50%)', 
-            color: '#6b7280' 
-          }} />
+        <div className="wiki-sidebar-search">
+          <Search size={16} className="wiki-sidebar-search-icon" />
           <input
             type="text"
             placeholder="Buscar nas páginas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              width: '100%',
-              paddingLeft: '2.5rem',
-              padding: '0.5rem 0.75rem',
-              border: '1px solid #d1d5db',
-              borderRadius: '6px',
-              fontSize: '0.875rem'
-            }}
+            className="wiki-sidebar-search-input"
           />
         </div>
       </div>
-
       {/* Home Page */}
       {getHomePage() && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="wiki-sidebar-home">
           <Link
             to={`/${getHomePage().slug}`}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '0.5rem',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              color: isCurrentPage(getHomePage().slug) ? '#1f2937' : '#4b5563',
-              backgroundColor: isCurrentPage(getHomePage().slug) ? '#e5e7eb' : 'transparent',
-              fontWeight: isCurrentPage(getHomePage().slug) ? 'bold' : 'normal'
-            }}
+            className={`wiki-sidebar-home-link${isCurrentPage(getHomePage().slug) ? ' active' : ''}`}
           >
-            <Home size={16} style={{ marginRight: '0.5rem', color: '#10b981' }} />
+            <Home size={16} className="icon" />
             {getHomePage().title}
           </Link>
         </div>
       )}
-
       {/* Categories with Pages */}
-      <div style={{ marginBottom: '1rem' }}>
+      <div className="wiki-sidebar-categories">
         {categories.map(category => {
-          const categoryPages = getPagesByCategory(category.id)
-          const isExpanded = expandedCategories.has(category.id)
-          
-          // Contar páginas incluindo subcategorias
+          const categoryPages = getPagesByCategory(category.id);
+          const isExpanded = expandedCategories.has(category.id);
           const allPages = categoryPages.concat(
             ...(category.subcategories || []).map(sub => getPagesByCategory(sub.id))
-          )
-          
-          if (allPages.length === 0 && !searchTerm && (!category.subcategories || category.subcategories.length === 0)) return null
-
+          );
+          if (allPages.length === 0 && !searchTerm && (!category.subcategories || category.subcategories.length === 0)) return null;
           return (
-            <div key={category.id} style={{ marginBottom: '0.5rem' }}>
-              {/* Category Header */}
+            <div key={category.id} className="wiki-sidebar-category">
               <button
                 onClick={() => toggleCategory(category.id)}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '0.5rem',
-                  border: 'none',
-                  background: 'transparent',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '0.875rem',
-                  fontWeight: 'bold',
-                  color: '#374151'
-                }}
+                className="wiki-sidebar-category-btn"
               >
-                {isExpanded ? 
-                  <ChevronDown size={14} style={{ marginRight: '0.25rem' }} /> :
-                  <ChevronRight size={14} style={{ marginRight: '0.25rem' }} />
+                {isExpanded ?
+                  <ChevronDown size={14} className="icon" /> :
+                  <ChevronRight size={14} className="icon" />
                 }
-                {isExpanded ? 
-                  <FolderOpen size={16} style={{ marginRight: '0.5rem', color: category.color || '#6366f1' }} /> :
-                  <Folder size={16} style={{ marginRight: '0.5rem', color: category.color || '#6366f1' }} />
+                {isExpanded ?
+                  <FolderOpen size={16} className="folder-icon" style={{ color: category.color || '#6366f1' }} /> :
+                  <Folder size={16} className="folder-icon" style={{ color: category.color || '#6366f1' }} />
                 }
                 {category.name} ({allPages.length})
               </button>
-
-              {/* Category Content */}
               {isExpanded && (
-                <div style={{ marginLeft: '1.5rem', marginTop: '0.25rem' }}>
-                  {/* Category Pages */}
+                <div className="wiki-sidebar-category-content">
                   {categoryPages.map(page => (
                     <Link
                       key={page.id}
                       to={`/pages/${page.slug}`}
-                      style={{
-                        display: 'block',
-                        padding: '0.375rem 0.5rem',
-                        borderRadius: '4px',
-                        textDecoration: 'none',
-                        fontSize: '0.875rem',
-                        color: isCurrentPage(page.slug) ? '#1f2937' : '#6b7280',
-                        backgroundColor: isCurrentPage(page.slug) ? '#e5e7eb' : 'transparent',
-                        marginBottom: '0.125rem'
-                      }}
+                      className={`wiki-sidebar-page-link${isCurrentPage(page.slug) ? ' active' : ''}`}
                     >
-                      <FileText size={14} style={{ 
-                        marginRight: '0.5rem', 
-                        verticalAlign: 'middle' 
-                      }} />
+                      <FileText size={14} className="icon" />
                       {page.title}
                     </Link>
                   ))}
-                  
-                  {/* Subcategories */}
                   {category.subcategories && category.subcategories.map(subcategory => {
-                    const subcategoryPages = getPagesByCategory(subcategory.id)
-                    const isSubExpanded = expandedCategories.has(subcategory.id)
-                    
-                    if (subcategoryPages.length === 0 && !searchTerm) return null
-                    
+                    const subcategoryPages = getPagesByCategory(subcategory.id);
+                    const isSubExpanded = expandedCategories.has(subcategory.id);
+                    if (subcategoryPages.length === 0 && !searchTerm) return null;
                     return (
-                      <div key={subcategory.id} style={{ marginTop: '0.5rem' }}>
-                        {/* Subcategory Header */}
+                      <div key={subcategory.id} className="wiki-sidebar-subcategory">
                         <button
                           onClick={() => toggleCategory(subcategory.id)}
-                          style={{
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0.375rem 0.5rem',
-                            border: 'none',
-                            background: 'transparent',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '0.8rem',
-                            fontWeight: '600',
-                            color: '#4b5563'
-                          }}
+                          className="wiki-sidebar-subcategory-btn"
                         >
-                          {isSubExpanded ? 
-                            <ChevronDown size={12} style={{ marginRight: '0.25rem' }} /> :
-                            <ChevronRight size={12} style={{ marginRight: '0.25rem' }} />
+                          {isSubExpanded ?
+                            <ChevronDown size={12} className="icon" /> :
+                            <ChevronRight size={12} className="icon" />
                           }
-                          <Tag size={12} style={{ marginRight: '0.5rem', color: subcategory.color || '#8b5cf6' }} />
+                          <Tag size={12} className="tag-icon" style={{ color: subcategory.color || '#8b5cf6' }} />
                           {subcategory.name} ({subcategoryPages.length})
                         </button>
-                        
-                        {/* Subcategory Pages */}
                         {isSubExpanded && (
-                          <div style={{ marginLeft: '1rem', marginTop: '0.25rem' }}>
+                          <div className="wiki-sidebar-subcategory-content">
                             {subcategoryPages.map(page => (
                               <Link
                                 key={page.id}
                                 to={`/pages/${page.slug}`}
-                                style={{
-                                  display: 'block',
-                                  padding: '0.25rem 0.5rem',
-                                  borderRadius: '4px',
-                                  textDecoration: 'none',
-                                  fontSize: '0.8rem',
-                                  color: isCurrentPage(page.slug) ? '#1f2937' : '#6b7280',
-                                  backgroundColor: isCurrentPage(page.slug) ? '#e5e7eb' : 'transparent',
-                                  marginBottom: '0.125rem'
-                                }}
+                                className={`wiki-sidebar-subcategory-page-link${isCurrentPage(page.slug) ? ' active' : ''}`}
                               >
-                                <FileText size={12} style={{ 
-                                  marginRight: '0.5rem', 
-                                  verticalAlign: 'middle' 
-                                }} />
+                                <FileText size={12} className="icon" />
                                 {page.title}
                               </Link>
                             ))}
                           </div>
                         )}
                       </div>
-                    )
+                    );
                   })}
                 </div>
               )}
             </div>
-          )
+          );
         })}
       </div>
-
       {/* Uncategorized Pages */}
       {getUncategorizedPages().length > 0 && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div className="wiki-sidebar-uncategorized">
           <button
             onClick={() => toggleCategory('uncategorized')}
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '0.5rem',
-              border: 'none',
-              background: 'transparent',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: 'bold',
-              color: '#6b7280'
-            }}
+            className="wiki-sidebar-uncategorized-btn"
           >
-            {expandedCategories.has('uncategorized') ? 
-              <ChevronDown size={14} style={{ marginRight: '0.25rem' }} /> :
-              <ChevronRight size={14} style={{ marginRight: '0.25rem' }} />
+            {expandedCategories.has('uncategorized') ?
+              <ChevronDown size={14} className="icon" /> :
+              <ChevronRight size={14} className="icon" />
             }
-            <Tag size={16} style={{ marginRight: '0.5rem' }} />
+            <Tag size={16} className="tag-icon" />
             Sem categoria ({getUncategorizedPages().length})
           </button>
-
           {expandedCategories.has('uncategorized') && (
-            <div style={{ marginLeft: '1.5rem', marginTop: '0.25rem' }}>
+            <div className="wiki-sidebar-uncategorized-content">
               {getUncategorizedPages().map(page => (
                 <Link
                   key={page.id}
                   to={`/pages/${page.slug}`}
-                  style={{
-                    display: 'block',
-                    padding: '0.375rem 0.5rem',
-                    borderRadius: '4px',
-                    textDecoration: 'none',
-                    fontSize: '0.875rem',
-                    color: isCurrentPage(page.slug) ? '#1f2937' : '#6b7280',
-                    backgroundColor: isCurrentPage(page.slug) ? '#e5e7eb' : 'transparent',
-                    marginBottom: '0.125rem'
-                  }}
+                  className={`wiki-sidebar-uncategorized-page-link${isCurrentPage(page.slug) ? ' active' : ''}`}
                 >
-                  <FileText size={14} style={{ 
-                    marginRight: '0.5rem', 
-                    verticalAlign: 'middle' 
-                  }} />
+                  <FileText size={14} className="icon" />
                   {page.title}
                 </Link>
               ))}
@@ -351,27 +222,14 @@ const PaginaSidebar = () => {
           )}
         </div>
       )}
-
       {/* Search Results */}
       {searchTerm && filteredPages.length === 0 && (
-        <div style={{ 
-          padding: '1rem', 
-          textAlign: 'center', 
-          color: '#6b7280',
-          fontSize: '0.875rem'
-        }}>
+        <div className="wiki-sidebar-empty">
           Nenhuma página encontrada
         </div>
       )}
-
       {/* Footer */}
-      <div style={{ 
-        marginTop: 'auto', 
-        paddingTop: '1rem',
-        borderTop: '1px solid #e5e7eb',
-        fontSize: '0.75rem',
-        color: '#9ca3af'
-      }}>
+      <div className="wiki-sidebar-footer">
         {filteredPages.length} página{filteredPages.length !== 1 ? 's' : ''} encontrada{filteredPages.length !== 1 ? 's' : ''}
       </div>
     </div>

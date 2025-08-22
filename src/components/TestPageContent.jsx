@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import api from '../services/api'
+import React, { useState, useEffect } from 'react';
+import api from '../services/api';
+import './TestPageContent.css';
 
 const TestPageContent = () => {
   const [page, setPage] = useState(null)
@@ -32,7 +33,7 @@ const TestPageContent = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="test-page-content-container">
       <h1>Teste da Página Sobre</h1>
       {page ? (
         <div>
@@ -48,7 +49,7 @@ const TestPageContent = () => {
         <div>Nenhuma página encontrada</div>
       )}
     </div>
-  )
+  );
 }
 
 export default TestPageContent

@@ -31,6 +31,7 @@ const Profile = () => {
 
   // Estados para preview do logo
   const [logoPreview, setLogoPreview] = useState('')
+  const [removingLogo, setRemovingLogo] = useState(false)
 
   useEffect(() => {
     // Inicializar preview do logo com configurações do contexto
@@ -72,6 +73,30 @@ const Profile = () => {
         setLogoPreview(logoData)
       }
       reader.readAsDataURL(file)
+    }
+  }
+
+  // Função para remover o logotipo
+  const handleRemoveLogo = async () => {
+    setRemovingLogo(true)
+    try {
+      // Atualiza o preview localmente
+      setLogoPreview('')
+      // Atualiza as configurações no backend
+      const updatedSettings = {
+        ...settings,
+        logo: ''
+      }
+      const success = await updateSettings(updatedSettings)
+      if (success) {
+        toast.success('Logotipo removido com sucesso!')
+      } else {
+        toast.error('Erro ao remover logotipo')
+      }
+    } catch (error) {
+      toast.error('Erro ao remover logotipo')
+    } finally {
+      setRemovingLogo(false)
     }
   }
 
@@ -421,7 +446,7 @@ const Profile = () => {
             <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'auto 1fr', alignItems: 'start' }}>
               <div>
                 {logoPreview && (
-                  <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
                     <img 
                       src={logoPreview} 
                       alt="Logo Preview" 
@@ -433,6 +458,15 @@ const Profile = () => {
                         padding: '0.5rem'
                       }} 
                     />
+                    <button
+                      type="button"
+                      className="btn"
+                      style={{ background: '#ef4444', color: 'white', padding: '0.25rem 0.75rem', fontSize: '0.9rem' }}
+                      onClick={handleRemoveLogo}
+                      disabled={removingLogo || loading}
+                    >
+                      {removingLogo ? 'Removendo...' : 'Remover Logotipo'}
+                    </button>
                   </div>
                 )}
                 <label className="btn" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>

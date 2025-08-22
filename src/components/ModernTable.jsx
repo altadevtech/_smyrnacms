@@ -1,4 +1,5 @@
 import React from 'react'
+import './ModernTable.css'
 
 const ModernTable = ({ 
   columns, 
@@ -11,7 +12,7 @@ const ModernTable = ({
     return (
       <div className="table-loading">
         <div className="spinner"></div>
-        <p style={{ marginLeft: '1rem', color: '#667eea' }}>Carregando...</p>
+  <p className="loading-text">Carregando...</p>
       </div>
     )
   }

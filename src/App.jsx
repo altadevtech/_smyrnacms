@@ -1,9 +1,10 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './contexts/AuthContext'
 import { SettingsProvider } from './contexts/SettingsContext'
-import Navbar from './components/NavbarNew'
+import AdminLayout from './components/AdminLayout'
+import FrontendLayout from './components/FrontendLayout'
 import Footer from './components/Footer'
 import DynamicHome from './pages/DynamicHome'
 import PublicPages from './pages/PublicPages'
@@ -36,154 +37,43 @@ function App() {
       <SettingsProvider>
         <Router>
           <div className="App">
-            <Navbar />
-            <main className="container">
             <Routes>
-              {/* Rota de Debug */}
-              <Route path="/debug" element={<DebugComponent />} />
-              <Route path="/quill-test" element={<QuillTest />} />
-              
-              {/* Rotas Públicas */}
-              <Route path="/" element={<DynamicHome />} />
-              
-              {/* Rotas Wiki Públicas */}
-              <Route path="/wiki" element={
-                <WikiLayout>
-                  <PublicPages />
-                </WikiLayout>
-              } />
-              <Route path="/wiki/:slug" element={<DynamicPublicPage />} />
-              <Route path="/:slug" element={<DynamicPublicPage />} />
-              
-              {/* Outras Rotas Públicas */}
-              <Route path="/pages" element={<PublicPages />} />
-              <Route path="/page/:slug" element={<DynamicPublicPage />} />
-              <Route path="/blog" element={<PublicBlog />} />
-              <Route path="/blog/categoria/:categorySlug" element={<PublicBlog />} />
-              <Route path="/blog/:slug" element={<PublicPost />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/admin/login" element={<Login />} />
-              
-              {/* Rotas Administrativas */}
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/pages" 
-                element={
-                  <ProtectedRoute>
-                    <Pages />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/pages/new" 
-                element={
-                  <ProtectedRoute>
-                    <DynamicPageEditor />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/pages/edit/:id" 
-                element={
-                  <ProtectedRoute>
-                    <DynamicPageEditor />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/pages/:id/versions" 
-                element={
-                  <ProtectedRoute>
-                    <PageVersionHistory />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/pages/:id/versions/:versionNumber" 
-                element={
-                  <ProtectedRoute>
-                    <VersionCompare />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/posts" 
-                element={
-                  <ProtectedRoute>
-                    <Posts />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/posts/new" 
-                element={
-                  <ProtectedRoute>
-                    <PostEditor />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/posts/edit/:id" 
-                element={
-                  <ProtectedRoute>
-                    <PostEditor />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/categories" 
-                element={
-                  <ProtectedRoute requiredRole="admin">
-                    <Categories />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/menus" 
-                element={
-                  <ProtectedRoute requiredRole="admin">
-                    <Menus />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/users" 
-                element={
-                  <ProtectedRoute requiredRole="admin">
-                    <Users />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/profile" 
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/templates" 
-                element={
-                  <ProtectedRoute requiredRole="admin">
-                    <Templates />
-                  </ProtectedRoute>
-                } 
-              />
+              {/* Rotas administrativas, 100% separadas do Frontend */}
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="pages" element={<Pages />} />
+                <Route path="pages/new" element={<DynamicPageEditor />} />
+                <Route path="posts" element={<Posts />} />
+                <Route path="categories" element={<Categories />} />
+                <Route path="users" element={<Users />} />
+                <Route path="menus" element={<Menus />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="templates" element={<Templates />} />
+                <Route path="page-editor/:id" element={<DynamicPageEditor />} />
+                <Route path="post-editor/:id" element={<PostEditor />} />
+                <Route path="page-versions/:id" element={<PageVersionHistory />} />
+                <Route path="version-compare/:id/:otherId" element={<VersionCompare />} />
+                <Route path="debug" element={<DebugComponent />} />
+                <Route path="quill-test" element={<QuillTest />} />
+              </Route>
+              {/* Rotas públicas, 100% separadas do Admin */}
+              <Route path="/" element={<FrontendLayout />}>
+                <Route index element={<DynamicHome />} />
+                <Route path="pages" element={<PublicPages />} />
+                <Route path="page/:slug" element={<DynamicPublicPage />} />
+                <Route path="blog" element={<PublicBlog />} />
+                <Route path="blog/:slug" element={<PublicPost />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="login" element={<Login />} />
+                <Route path="profile" element={<Profile />} />
+                {/* Adicione outras rotas públicas aqui */}
+              </Route>
             </Routes>
-          </main>
-          <Footer />
-          <Toaster position="top-right" />
-        </div>
-      </Router>
+            <Footer />
+            <Toaster position="top-right" />
+          </div>
+        </Router>
       </SettingsProvider>
     </AuthProvider>
   )

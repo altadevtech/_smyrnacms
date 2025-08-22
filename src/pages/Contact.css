@@ -1,0 +1,133 @@
+/* Minimal, theme-driven CSS for Contact.jsx */
+
+.contact-page {
+  min-height: 80vh;
+  padding: 2rem 2rem;
+  background: var(--color-accent-gradient, var(--color-accent));
+  border-radius: 0;
+}
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.contact-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-align: center;
+  line-height: 1;
+}
+.contact-subtitle {
+  font-size: 1.1rem;
+  color: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+}
+.contact-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0;
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+}
+.contact-card-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+}
+.contact-form-group {
+  margin-bottom: 1.5rem;
+}
+.contact-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.contact-input, .contact-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+.contact-input:focus, .contact-textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+.contact-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.contact-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.contact-btn:hover {
+  background: var(--color-accent-dark, #2d6a7b);
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+  border-radius: 0;
+  margin-bottom: 1rem;
+}
+.contact-item-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.contact-item-title {
+  margin: 0;
+  color: var(--color-text);
+}
+.contact-item-link {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.contact-item-link:hover {
+  text-decoration: underline;
+}
+.contact-item-desc {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
