@@ -62,7 +62,8 @@ function App() {
               <Route path="/" element={<FrontendLayout />}>
                 <Route index element={<DynamicHome />} />
                 <Route path="pages" element={<PublicPages />} />
-                <Route path="page/:slug" element={<DynamicPublicPage />} />
+                {/* Cada página pública será uma rota isolada pelo slug */}
+                <Route path=":slug" element={<DynamicPublicPage />} />
                 <Route path="blog" element={<PublicBlog />} />
                 <Route path="blog/:slug" element={<PublicPost />} />
                 <Route path="contact" element={<Contact />} />

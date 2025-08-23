@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import api from '../services/api'
-import { Calendar, User, FileText, ArrowRight, BookOpen, Search, Filter, Tag, X } from 'lucide-react'
-import { getDisplaySummary, formatDate, formatRelativeDate } from '../utils/textUtils'
-import './PublicPages.css'
 
-const PublicPages = () => {
-  const [pages, setPages] = useState([])
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [tagFilter, setTagFilter] = useState('')
-  const [showFilters, setShowFilters] = useState(false)
+function PublicPages() {
+  const [pages, setPages] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [tagFilter, setTagFilter] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
-    fetchPages();
     fetchCategories();
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    function handleResize() {
+      setIsMobile(window.innerWidth < 768);
+    }
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -29,16 +23,16 @@ const PublicPages = () => {
     // eslint-disable-next-line
   }, [searchTerm, selectedCategory, tagFilter]);
 
-  const fetchCategories = async () => {
+  async function fetchCategories() {
     try {
       const response = await api.get('/categories?type=page');
       setCategories(response.data);
     } catch (error) {
       console.error('Erro ao carregar categorias:', error);
     }
-  };
+  }
 
-  const fetchPages = async () => {
+  async function fetchPages() {
     try {
       const params = new URLSearchParams();
       if (searchTerm) params.append('search', searchTerm);
@@ -50,27 +44,18 @@ const PublicPages = () => {
       console.error('Erro ao carregar páginas:', error);
     }
     setLoading(false);
-  };
+  }
 
-  const generateSlug = (title, id) => {
+  function generateSlug(title, id) {
     return (
       title
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[\u0000-\u000f]/g, '')
-        .replace(/[^a-z0-9\s]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '') +
-      '-' + id
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        + '-' + id
     );
-  };
-
-  const clearFilters = () => {
-    setSearchTerm('');
-    setSelectedCategory('');
-    setTagFilter('');
-  };
+  }
 
   const hasActiveFilters = searchTerm || selectedCategory || tagFilter;
 
@@ -118,7 +103,7 @@ const PublicPages = () => {
             {showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros'}
           </button>
           {hasActiveFilters && (
-            <button onClick={clearFilters} className="public-pages-clear-filters">
+            <button onClick={() => { setSearchTerm(''); setSelectedCategory(''); setTagFilter(''); }} className="public-pages-clear-filters">
               <X size={16} />
               Limpar Filtros
             </button>
@@ -140,9 +125,7 @@ const PublicPages = () => {
                   </option>
                 ))}
               </select>
-            </div>
-            <div>
-              <label className="public-pages-filter-label">Tag</label>
+              <label className="public-pages-filter-label" style={{marginTop: '1rem'}}>Tag</label>
               <div style={{ position: 'relative' }}>
                 <Tag size={16} className="public-pages-search-icon" />
                 <input
@@ -184,7 +167,7 @@ const PublicPages = () => {
                   </div>
                 )}
                 <h2 className="public-pages-article-title">
-                  <Link to={`/page/${page.slug || generateSlug(page.title, page.id)}`} className="public-pages-article-link">
+                  <Link to={`/${page.slug || generateSlug(page.title, page.id)}`} className="public-pages-article-link">
                     {page.title}
                   </Link>
                 </h2>
@@ -198,7 +181,7 @@ const PublicPages = () => {
                     ))}
                   </div>
                 )}
-                <Link to={`/page/${page.slug || generateSlug(page.title, page.id)}`} className="public-pages-read-btn">
+                <Link to={`/${page.slug || generateSlug(page.title, page.id)}`} className="public-pages-read-btn">
                   <BookOpen size={16} />
                   Ler página completa
                 </Link>
@@ -227,7 +210,7 @@ const PublicPages = () => {
                 : 'Ainda não há páginas publicadas.'}
             </p>
             {hasActiveFilters && (
-              <button onClick={clearFilters} className="public-pages-empty-clear-btn">
+              <button onClick={() => { setSearchTerm(''); setSelectedCategory(''); setTagFilter(''); }} className="public-pages-empty-clear-btn">
                 Limpar todos os filtros
               </button>
             )}

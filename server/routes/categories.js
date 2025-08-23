@@ -7,12 +7,12 @@ const router = express.Router()
 // Listar todas as categorias (público) com filtro por tipo e hierarquia
 router.get('/', (req, res) => {
   const db = Database.getDb()
-  const { type, hierarchical } = req.query // 'wiki' ou 'blog', hierarchical='true' para estrutura hierárquica
+  const { type, hierarchical } = req.query // 'pages' ou 'blog', hierarchical='true' para estrutura hierárquica
   
   let query = 'SELECT id, name, slug, color, type, parent_id FROM categories'
   let params = []
   
-  if (type && ['wiki', 'blog'].includes(type)) {
+  if (type && ['pages', 'blog'].includes(type)) {
     query += ' WHERE type = ?'
     params.push(type)
   }
@@ -77,8 +77,8 @@ router.get('/main/:type', (req, res) => {
   const db = Database.getDb()
   const { type } = req.params
   
-  if (!['wiki', 'blog'].includes(type)) {
-    return res.status(400).json({ error: 'Tipo deve ser "wiki" ou "blog"' })
+  if (!['pages', 'blog'].includes(type)) {
+    return res.status(400).json({ error: 'Tipo deve ser "pages" ou "blog"' })
   }
   
   db.all('SELECT * FROM categories WHERE type = ? AND parent_id IS NULL ORDER BY name', [type], (err, categories) => {
@@ -135,8 +135,8 @@ router.post('/', authenticateToken, (req, res) => {
     return res.status(400).json({ error: 'Nome, slug e tipo são obrigatórios' })
   }
   
-  if (!['wiki', 'blog'].includes(type)) {
-    return res.status(400).json({ error: 'Tipo deve ser "wiki" ou "blog"' })
+  if (!['pages', 'blog'].includes(type)) {
+    return res.status(400).json({ error: 'Tipo deve ser "pages" ou "blog"' })
   }
   
   // Validar parent_id se fornecido
@@ -221,8 +221,8 @@ router.put('/:id', authenticateToken, (req, res) => {
     return res.status(400).json({ error: 'Nome, slug e tipo são obrigatórios' })
   }
   
-  if (!['wiki', 'blog'].includes(type)) {
-    return res.status(400).json({ error: 'Tipo deve ser "wiki" ou "blog"' })
+  if (!['pages', 'blog'].includes(type)) {
+    return res.status(400).json({ error: 'Tipo deve ser "pages" ou "blog"' })
   }
   
   // Verificar se categoria existe
@@ -440,7 +440,7 @@ router.get('/:id/posts', (req, res) => {
 // Buscar categorias com contagem de posts (público)
 router.get('/stats/with-posts', (req, res) => {
   const db = Database.getDb()
-  const { type } = req.query // 'wiki' ou 'blog'
+  const { type } = req.query // 'pages' ou 'blog'
   
   let query = `
     SELECT 
@@ -456,7 +456,7 @@ router.get('/stats/with-posts', (req, res) => {
   
   let params = []
   
-  if (type && ['wiki', 'blog'].includes(type)) {
+  if (type && ['pages', 'blog'].includes(type)) {
     query += ' WHERE c.type = ?'
     params.push(type)
   }

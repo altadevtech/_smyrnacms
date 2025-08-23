@@ -2,33 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useSettings } from '../contexts/SettingsContext';
-import { LogOut, User, Settings, ChevronDown, Home, FileText, BookOpen, Phone, LayoutDashboard, Users, PenTool, Tag } from 'lucide-react';
+import { LogOut, User, Settings, ChevronDown, LayoutDashboard, Users, PenTool, Tag } from 'lucide-react';
 import './Navbar.css';
 import ThemeToggle from './ThemeToggle';
+import api from '../services/api';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const { settings } = useSettings();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  const publicMenuItems = [
-    { to: '/', label: 'Início', icon: Home },
-    { to: '/pages', label: 'Páginas', icon: FileText },
-    { to: '/blog', label: 'Blog', icon: BookOpen },
-    { to: '/contact', label: 'Contato', icon: Phone }
-  ];
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
+  const [loadingMenu, setLoadingMenu] = useState(true);
+
 
   const adminMenuItems = [
     { to: '/admin/categories', label: 'Categorias', icon: Tag },
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/admin/pages', label: 'Páginas', icon: FileText },
+    { to: '/admin/pages', label: 'Páginas', icon: null },
     { to: '/admin/posts', label: 'Posts', icon: PenTool },
     ...(user?.role === 'admin' ? [
       { to: '/admin/users', label: 'Usuários', icon: Users }
     ] : [])
   ];
+  // Carregar menus dinâmicos do backend
+  useEffect(() => {
+    if (!user) {
+      setLoadingMenu(true);
+      api.get('/menus/public')
+        .then(res => {
+          setMenuItems(res.data);
+        })
+        .catch(() => setMenuItems([]))
+        .finally(() => setLoadingMenu(false));
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -70,18 +80,41 @@ const Navbar = () => {
         </div>
         {/* Menu */}
         <ul>
-          {(user ? adminMenuItems : publicMenuItems).map((item) => {
-            const Icon = item.icon;
-            const isActive = isActiveRoute(item.to);
-            return (
-              <li key={item.to}>
-                <Link to={item.to} className={isActive ? 'active' : ''}>
-                  <Icon size={16} />
-                  {item.label}
+          {user ? (
+            adminMenuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = isActiveRoute(item.to);
+              return (
+                <li key={item.to}>
+                  <Link to={item.to} className={isActive ? 'active' : ''}>
+                    {Icon && <Icon size={16} />} {item.label}
+                  </Link>
+                </li>
+              );
+            })
+          ) : loadingMenu ? (
+            <li>Carregando menu...</li>
+          ) : (
+            menuItems.map((item) => (
+              <li key={item.id || item.to}>
+                <Link to={item.url || '/'} className={isActiveRoute(item.url || '/') ? 'active' : ''} target={item.target || '_self'}>
+                  {item.name}
                 </Link>
+                {/* Submenus */}
+                {item.children && item.children.length > 0 && (
+                  <ul className="submenu">
+                    {item.children.map((sub) => (
+                      <li key={sub.id}>
+                        <Link to={sub.url || '/'} className={isActiveRoute(sub.url || '/') ? 'active' : ''} target={sub.target || '_self'}>
+                          {sub.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
-            );
-          })}
+            ))
+          )}
         </ul>
         {/* User Menu */}
         <div className="user-menu-container">
