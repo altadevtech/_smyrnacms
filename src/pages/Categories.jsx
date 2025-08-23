@@ -166,7 +166,7 @@ const Categories = () => {
   }
 
   return (
-    <div className="container" style={{ paddingTop: '2rem' }}>
+  <div className="container admin-content-container">
       <div className="admin-header">
         <h1><Tag size={24} /> Categorias</h1>
         {!isCreating && (

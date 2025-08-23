@@ -45,6 +45,7 @@ function App() {
                 <Route path="pages" element={<Pages />} />
                 <Route path="pages/new" element={<DynamicPageEditor />} />
                 <Route path="posts" element={<Posts />} />
+                <Route path="posts/new" element={<PostEditor />} />
                 <Route path="categories" element={<Categories />} />
                 <Route path="users" element={<Users />} />
                 <Route path="menus" element={<Menus />} />

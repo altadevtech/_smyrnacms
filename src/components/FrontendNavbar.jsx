@@ -1,11 +1,14 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSettings } from '../contexts/SettingsContext';
+import { useAuth } from '../contexts/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import './NavbarNew.css';
 
-const FrontendNavbar = ({ user }) => {
+const FrontendNavbar = () => {
   const { settings } = useSettings();
+  const { user } = useAuth();
   return (
     <nav className="navbar remodeled-navbar">
       <div className="navbar-container remodeled-navbar-container">
@@ -33,9 +36,15 @@ const FrontendNavbar = ({ user }) => {
           <div className="navbar-theme-toggle remodeled-navbar-theme-toggle">
             <ThemeToggle />
           </div>
-          <Link to="/login" className="navbar-login-link">
-            Entrar
-          </Link>
+          {user ? (
+            <Link to="/admin" className="navbar-login-link">
+              Painel
+            </Link>
+          ) : (
+            <Link to="/login" className="navbar-login-link">
+              Entrar
+            </Link>
+          )}
         </div>
       </div>
     </nav>

@@ -7,17 +7,13 @@ import { LogIn, Mail, Lock, User, Eye, EyeOff, ArrowRight, Shield, Zap, Globe } 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   
-  const { login, user } = useAuth()
-  const navigate = useNavigate()
 
-  // Se já estiver logado, redireciona
-  if (user) {
-    return <Navigate to="/dashboard" replace />
-  }
+  const { login, user, loading } = useAuth()
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -28,20 +24,30 @@ const Login = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Aguarda o contexto carregar antes de qualquer return condicional
+  if (loading) {
+    return null; // ou um spinner minimalista
+  }
+
+  // Se já estiver logado, redireciona
+  if (user) {
+    return <Navigate to="/admin" replace />
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
+    setFormLoading(true)
 
     const result = await login(email, password)
     
     if (result.success) {
       toast.success('Login realizado com sucesso!')
-      navigate('/dashboard')
+      navigate('/admin')
     } else {
       toast.error(result.error)
     }
     
-    setLoading(false)
+    setFormLoading(false)
   }
 
   return (
@@ -438,11 +444,11 @@ const Login = () => {
               {/* Submit Button */}
               <button 
                 type="submit" 
-                disabled={loading}
+                disabled={formLoading}
                 style={{
                   width: '100%',
                   padding: '1rem 2rem',
-                  background: loading 
+                  background: formLoading 
                     ? '#94a3b8' 
                     : 'linear-gradient(135deg, rgb(102, 234, 205) 0%, rgb(75, 129, 162) 100%)',
                   color: 'white',
@@ -450,9 +456,9 @@ const Login = () => {
                   borderRadius: '12px',
                   fontSize: '1.1rem',
                   fontWeight: '600',
-                  cursor: loading ? 'not-allowed' : 'pointer',
+                  cursor: formLoading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: loading ? 'none' : '0 4px 14px rgba(102, 234, 205, 0.3)',
+                  boxShadow: formLoading ? 'none' : '0 4px 14px rgba(102, 234, 205, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -460,19 +466,19 @@ const Login = () => {
                   fontFamily: 'inherit'
                 }}
                 onMouseEnter={(e) => {
-                  if (!loading) {
+                  if (!formLoading) {
                     e.target.style.transform = 'translateY(-2px)'
                     e.target.style.boxShadow = '0 8px 20px rgba(102, 234, 205, 0.4)'
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (!loading) {
+                  if (!formLoading) {
                     e.target.style.transform = 'translateY(0)'
                     e.target.style.boxShadow = '0 4px 14px rgba(102, 234, 205, 0.3)'
                   }
                 }}
               >
-                {loading ? (
+                {formLoading ? (
                   <>
                     <div style={{
                       width: '20px',
