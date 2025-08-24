@@ -4,6 +4,30 @@ import { authenticateToken } from '../middleware/auth.js'
 
 const router = express.Router()
 
+// Buscar post público por SLUG
+router.get('/public/slug/:slug', (req, res) => {
+  const { slug } = req.params;
+  const db = Database.getDb();
+  db.get(
+    `SELECT p.*, u.name as author_name, c.name as category_name, c.slug as category_slug, c.color as category_color 
+     FROM posts p 
+     JOIN users u ON p.author_id = u.id 
+     LEFT JOIN categories c ON p.category_id = c.id 
+     WHERE p.slug = ? AND p.status = 'published'`,
+    [slug],
+    (err, post) => {
+      if (err) {
+        return res.status(500).json({ message: 'Erro ao buscar post por slug' });
+      }
+      if (!post) {
+        return res.status(404).json({ message: 'Post não encontrado' });
+      }
+      console.log('🔎 [GET /public/slug/:slug] Conteúdo retornado:', { slug, content: post.content });
+      res.json(post);
+    }
+  );
+});
+
 // Listar posts públicos (sem autenticação)
 router.get('/public', (req, res) => {
   const db = Database.getDb()
@@ -134,136 +158,16 @@ router.post('/', (req, res) => {
   
   const { title, slug, summary, content, status = 'draft', category_id, featured_image } = req.body
 
+  console.log('📝 [POST /posts] Conteúdo recebido:', { slug, content });
+
   if (!title || !content) {
     console.log('❌ Erro: Título ou conteúdo faltando')
     return res.status(400).json({ message: 'Título e conteúdo são obrigatórios' })
   }
 
   if (!slug || !slug.trim()) {
-    console.log('❌ Erro: Slug é obrigatório')
     return res.status(400).json({ message: 'Slug é obrigatório' })
   }
-
-  if (!['draft', 'published'].includes(status)) {
-    console.log('❌ Erro: Status inválido:', status)
-    return res.status(400).json({ message: 'Status inválido' })
-  }
-
-  const db = Database.getDb()
-  
-  console.log('💾 Executando inserção no banco...')
-  db.run(
-    'INSERT INTO posts (title, slug, summary, content, status, author_id, category_id, featured_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    [title, slug.trim(), summary || '', content, status, req.user.id, category_id || null, featured_image || null],
-    function(err) {
-      if (err) {
-        console.error('❌ Erro ao inserir post no banco:', err)
-        // Verificar se é erro de slug duplicado
-        if (err.message.includes('UNIQUE constraint failed: posts.slug')) {
-          return res.status(400).json({ message: 'Este slug já está sendo usado. Por favor, escolha outro.' })
-        }
-        return res.status(500).json({ message: 'Erro ao criar post' })
-      }
-
-      console.log('✅ Post criado com sucesso, ID:', this.lastID)
-      res.status(201).json({ 
-        id: this.lastID,
-        message: 'Post criado com sucesso' 
-      })
-    }
-  )
-})
-
-// Atualizar post
-router.put('/:id', (req, res) => {
-  const { id } = req.params
-  const { title, slug, summary, content, status, category_id, featured_image } = req.body
-
-  if (!title || !content) {
-    return res.status(400).json({ message: 'Título e conteúdo são obrigatórios' })
-  }
-
-  if (!slug || !slug.trim()) {
-    return res.status(400).json({ message: 'Slug é obrigatório' })
-  }
-
-  if (status && !['draft', 'published'].includes(status)) {
-    return res.status(400).json({ message: 'Status inválido' })
-  }
-
-  const db = Database.getDb()
-  
-  // Verificar se o usuário pode editar este post
-  db.get('SELECT author_id FROM posts WHERE id = ?', [id], (err, post) => {
-    if (err) {
-      return res.status(500).json({ message: 'Erro ao buscar post' })
-    }
-
-    if (!post) {
-      return res.status(404).json({ message: 'Post não encontrado' })
-    }
-
-    // Admin pode editar qualquer post, editor só seus próprios
-    if (req.user.role !== 'admin' && post.author_id !== req.user.id) {
-      return res.status(403).json({ message: 'Sem permissão para editar este post' })
-    }
-
-    db.run(
-      'UPDATE posts SET title = ?, slug = ?, summary = ?, content = ?, status = ?, category_id = ?, featured_image = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
-      [title, slug.trim(), summary || '', content, status, category_id || null, featured_image || null, id],
-      function(err) {
-        if (err) {
-          // Verificar se é erro de slug duplicado
-          if (err.message.includes('UNIQUE constraint failed: posts.slug')) {
-            return res.status(400).json({ message: 'Este slug já está sendo usado. Por favor, escolha outro.' })
-          }
-          return res.status(500).json({ message: 'Erro ao atualizar post' })
-        }
-
-        res.json({ message: 'Post atualizado com sucesso' })
-      }
-    )
-  })
-})
-
-// Alterar status do post
-router.patch('/:id/status', (req, res) => {
-  const { id } = req.params
-  const { status } = req.body
-
-  if (!['draft', 'published'].includes(status)) {
-    return res.status(400).json({ message: 'Status inválido' })
-  }
-
-  const db = Database.getDb()
-  
-  // Verificar se o usuário pode editar este post
-  db.get('SELECT author_id FROM posts WHERE id = ?', [id], (err, post) => {
-    if (err) {
-      return res.status(500).json({ message: 'Erro ao buscar post' })
-    }
-
-    if (!post) {
-      return res.status(404).json({ message: 'Post não encontrado' })
-    }
-
-    // Admin pode editar qualquer post, editor só seus próprios
-    if (req.user.role !== 'admin' && post.author_id !== req.user.id) {
-      return res.status(403).json({ message: 'Sem permissão para editar este post' })
-    }
-
-    db.run(
-      'UPDATE posts SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
-      [status, id],
-      function(err) {
-        if (err) {
-          return res.status(500).json({ message: 'Erro ao atualizar status' })
-        }
-
-        res.json({ message: 'Status atualizado com sucesso' })
-      }
-    )
-  })
 })
 
 // Excluir post

@@ -167,13 +167,14 @@ const Categories = () => {
   }
 
   return (
-  <div className="container admin-content-container">
+  <div className="container admin-content-container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
       <div className="admin-header">
         <h1><Tag size={24} /> Categorias</h1>
         {!isCreating && (
           <button 
             onClick={() => setIsCreating(true)} 
             className="btn btn-primary"
+             style={{ float: 'right', marginBottom: '1rem', paddingTop:'15px', paddingBottom:'15px' }}
           >
             <Plus size={18} /> Nova Categoria
           </button>
@@ -196,21 +197,6 @@ const Categories = () => {
         </button>
       </div>
 
-  {/* Abas para Páginas e Blog */}
-  <div className="category-tabs">
-        <button 
-          className={`tab-btn ${activeTab === 'pages' ? 'active' : ''}`}
-          onClick={() => setActiveTab('pages')}
-        >
-          � Páginas
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'blog' ? 'active' : ''}`}
-          onClick={() => setActiveTab('blog')}
-        >
-          📝 Blog
-        </button>
-      </div>
 
       {isCreating && (
   <div className="card">
@@ -323,6 +309,7 @@ const Categories = () => {
             <table className="table categories-table">
             <thead>
               <tr>
+                <th>Ordem</th>
                 <th>Nome</th>
                 <th>Slug</th>
                 <th className="hide-mobile">Descrição</th>
@@ -333,6 +320,37 @@ const Categories = () => {
             <tbody>
               {categories.map(category => (
                 <tr key={category.id}>
+                  <td style={{ width: 70 }}>
+                    <input
+                      type="number"
+                      min={0}
+                      value={category.sort_order || 0}
+                      style={{ width: 50, textAlign: 'center' }}
+                      onChange={e => {
+                        const newOrder = parseInt(e.target.value, 10) || 0;
+                        setCategories(prev => prev.map(cat => cat.id === category.id ? { ...cat, sort_order: newOrder } : cat));
+                      }}
+                      onBlur={async e => {
+                        const newOrder = parseInt(e.target.value, 10) || 0;
+                        try {
+                          // Enviar todos os campos obrigatórios para evitar erro 400
+                          await api.put(`/categories/${category.id}`, {
+                            name: category.name,
+                            slug: category.slug,
+                            description: category.description,
+                            color: category.color,
+                            type: category.type,
+                            parent_id: category.parent_id,
+                            sort_order: newOrder
+                          });
+                          fetchCategories();
+                          toast.success('Ordem atualizada!');
+                        } catch (err) {
+                          toast.error('Erro ao atualizar ordem');
+                        }
+                      }}
+                    />
+                  </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {category.parent_id && <span style={{ marginLeft: '1.5rem', color: '#9ca3af' }}>↳</span>}

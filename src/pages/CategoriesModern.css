@@ -20,14 +20,14 @@
   outline: none;
 }
 .tab-btn.active {
-  background: var(--color-bg, #fff);
-  color: var(--color-primary, #6366f1);
-  border-bottom: 2.5px solid var(--color-primary, #6366f1);
+  background: #6366f1;
+  color:#fff;
+  border-bottom: #6366f1;
   z-index: 2;
 }
 .tab-btn:not(.active):hover {
-  background: var(--color-secondary, #f4f6fb);
-  color: var(--color-primary, #6366f1);
+  background:#000;
+  color:#fff;
 }
 
 /* Card de formulário */
@@ -52,8 +52,7 @@
   border-collapse: separate;
   border-spacing: 0;
   background: var(--color-bg, #fff);
-  border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(99,102,241,0.07);
+  border-radius: 4px;
   overflow: hidden;
   font-size: 1.04rem;
 }
@@ -90,8 +89,8 @@
   margin-right: 0.5rem;
 }
 .category-slug {
-  background: var(--color-secondary, #f4f6fb);
-  color: var(--color-primary, #6366f1);
+  background: #6366f1;
+  color:#fff;
   border-radius: 4px;
   padding: 0.2rem 0.5rem;
   font-size: 0.97em;

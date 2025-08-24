@@ -54,6 +54,7 @@ function App() {
                 <Route path="templates" element={<Templates />} />
                 <Route path="page-editor/:id" element={<DynamicPageEditor />} />
                 <Route path="post-editor/:id" element={<PostEditor />} />
+                <Route path="posts/edit/:id" element={<PostEditor />} />
                 <Route path="page-versions/:id" element={<PageVersionHistory />} />
                 <Route path="version-compare/:id/:otherId" element={<VersionCompare />} />
                 <Route path="debug" element={<DebugComponent />} />

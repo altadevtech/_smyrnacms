@@ -54,10 +54,10 @@ const Pages = () => {
   }
 
   return (
-    <div className="container" style={{ paddingTop: '2rem' }}>
-      <div className="pages-header">
+    <div className="container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+      <div className="pages-header" style={{ paddingBottom: '2rem' }}>
         <h1><FileText size={24} className="pages-header-icon" />Páginas</h1>
-        <Link to="/admin/pages/new" className="btn btn-primary">
+        <Link to="/admin/pages/new" className="btn btn-primary" style={{ float: 'right', marginBottom: '1rem' }}>
           <Plus size={18} className="pages-header-icon" /> Nova Pagina
         </Link>
       </div>

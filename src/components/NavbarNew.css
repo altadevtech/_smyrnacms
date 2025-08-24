@@ -1,6 +1,6 @@
 /* Admin Navbar visualmente distinto */
 .admin-navbar {
-  background: #232946 !important;
+  background: #4c4fc9 !important;
   color: #fff !important;
   box-shadow: none !important;
 }
@@ -197,31 +197,16 @@
 .user-menu-container {
   margin-right: 0;
 }
-.user-menu-btn,
-.user-menu-dropdown,
-.user-menu-dropdown-link,
-.user-menu-dropdown-logout,
-.navbar-login-link,
-.navbar-mobile-toggle,
-.navbar-mobile-menu,
-.navbar-mobile-menu-link,
-.navbar-mobile-user-section,
-.navbar-mobile-user,
-.navbar-mobile-user-link,
-.navbar-mobile-user-logout {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
+
 
 .user-menu-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1.2rem 0.5rem 0.8rem;
-  background: none !important;
-  border: none !important;
-  color: var(--color-accent, #286c5d);
+  background: #6366f1 !important;
+  border: 1px solid #6366f1 !important;
+  color: #fff;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;

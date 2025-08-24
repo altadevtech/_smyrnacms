@@ -84,7 +84,11 @@ const Dashboard = () => {
                   <Eye size={16} className="dashboard-activity-icon" />
                   <span><strong>{activity.author_name}</strong> {activity.action} "{activity.title}"</span>
                   <small className="dashboard-activity-date">
-                    {new Date(activity.created_at).toLocaleDateString()}
+                    {(() => {
+                      const d = new Date(activity.activity_date);
+                      if (!activity.activity_date || isNaN(d)) return '-';
+                      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    })()}
                   </small>
                 </div>
               ))}

@@ -121,38 +121,6 @@ function DynamicHome() {
             <aside className="dynamic-home-sidebar">
               <section className="dynamic-home-card">
                 <div className="dynamic-home-card-header">
-                  <FileText size={18} /> Páginas Recentes
-                </div>
-                <div className="dynamic-home-card-list">
-                  {recentPages.length > 0 ? (
-                    <>
-                      <div className="dynamic-home-list">
-                        {recentPages.map((page) => (
-                          <div key={page.id} className="dynamic-home-list-item">
-                            <h4 className="dynamic-home-list-title">
-                              <a href={`/page/${page.slug}`} className="dynamic-home-list-link">
-                                {page.title}
-                              </a>
-                            </h4>
-                            <p className="dynamic-home-list-meta">
-                              Atualizada em {formatDate(page.updated_at)}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="dynamic-home-list-footer">
-                        <a href="/pages" className="btn btn-secondary dynamic-home-list-btn">
-                          <ArrowRight size={14} /> Ver Todas as Páginas
-                        </a>
-                      </div>
-                    </>
-                  ) : (
-                    <p className="dynamic-home-list-empty">Nenhuma página encontrada.</p>
-                  )}
-                </div>
-              </section>
-              <section className="dynamic-home-card">
-                <div className="dynamic-home-card-header">
                   <Calendar size={18} /> Posts Recentes
                 </div>
                 <div className="dynamic-home-card-list">
@@ -162,7 +130,7 @@ function DynamicHome() {
                         {recentPosts.map((post) => (
                           <div key={post.id} className="dynamic-home-list-item">
                             <h4 className="dynamic-home-list-title">
-                              <a href={`/post/${post.id}`} className="dynamic-home-list-link">
+                              <a href={`/blog/${post.slug}`} className="dynamic-home-list-link">
                                 {post.title}
                               </a>
                             </h4>

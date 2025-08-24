@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     params.push(type)
   }
   
-  query += ' ORDER BY name'
+  query += ' ORDER BY sort_order ASC, name ASC'
   
   db.all(query, params, (err, categories) => {
     if (err) {
@@ -89,7 +89,7 @@ router.get('/main/:type', (req, res) => {
     return res.status(400).json({ error: 'Tipo deve ser "pages" ou "blog"' })
   }
   
-  db.all('SELECT * FROM categories WHERE type = ? AND parent_id IS NULL ORDER BY name', [type], (err, categories) => {
+  db.all('SELECT * FROM categories WHERE type = ? AND parent_id IS NULL ORDER BY sort_order ASC, name ASC', [type], (err, categories) => {
     if (err) {
       console.error('Erro ao buscar categorias principais:', err)
       return res.status(500).json({ error: 'Erro interno do servidor' })
@@ -104,7 +104,7 @@ router.get('/:id/subcategories', (req, res) => {
   const db = Database.getDb()
   const { id } = req.params
   
-  db.all('SELECT * FROM categories WHERE parent_id = ? ORDER BY name', [id], (err, subcategories) => {
+  db.all('SELECT * FROM categories WHERE parent_id = ? ORDER BY sort_order ASC, name ASC', [id], (err, subcategories) => {
     if (err) {
       console.error('Erro ao buscar subcategorias:', err)
       return res.status(500).json({ error: 'Erro interno do servidor' })
@@ -222,7 +222,7 @@ router.post('/', authenticateToken, (req, res) => {
 router.put('/:id', authenticateToken, (req, res) => {
   const db = Database.getDb()
   const { id } = req.params
-  const { name, slug, color, type, parent_id } = req.body
+  const { name, slug, color, type, parent_id, sort_order } = req.body
   
   // Validações
   if (!name || !slug || !type) {
@@ -297,11 +297,10 @@ router.put('/:id', authenticateToken, (req, res) => {
         // Atualizar categoria
         const query = `
           UPDATE categories 
-          SET name = ?, slug = ?, color = ?, type = ?, parent_id = ?, updated_at = datetime('now')
+          SET name = ?, slug = ?, color = ?, type = ?, parent_id = ?, sort_order = ?, updated_at = datetime('now')
           WHERE id = ?
         `
-        
-        db.run(query, [name, slug, color || '#3B82F6', type, parent_id || null, id], function(err) {
+        db.run(query, [name, slug, color || '#3B82F6', type, parent_id || null, typeof sort_order === 'number' ? sort_order : 0, id], function(err) {
           if (err) {
             console.error('Erro ao atualizar categoria:', err)
             return res.status(500).json({ error: 'Erro interno do servidor' })

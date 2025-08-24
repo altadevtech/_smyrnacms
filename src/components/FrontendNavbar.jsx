@@ -39,6 +39,16 @@ const FrontendNavbar = () => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [openDropdownId]);
 
+  // Ordena categorias e subcategorias por sort_order (e nome como fallback)
+  const orderedCategories = [...pageCategories]
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || a.name.localeCompare(b.name))
+    .map(cat => ({
+      ...cat,
+      subcategories: cat.subcategories
+        ? [...cat.subcategories].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || a.name.localeCompare(b.name))
+        : []
+    }));
+
   return (
     <nav className="navbar remodeled-navbar">
       <div className="navbar-container remodeled-navbar-container">
@@ -58,10 +68,10 @@ const FrontendNavbar = () => {
           <ul className="navbar-menu remodeled-navbar-menu">
             <li><Link to="/" className="navbar-menu-link">Início</Link></li>
             {/* Categorias de páginas: se tiver subcategorias, exibe como dropdown, senão como item simples */}
-            {pageCategories.length === 0 && (
+            {orderedCategories.length === 0 && (
               <li><span className="navbar-menu-link" style={{ color: '#888' }}>Páginas</span></li>
             )}
-            {pageCategories.map((cat) =>
+            {orderedCategories.map((cat) =>
               cat.subcategories && cat.subcategories.length > 0 ? (
                 <li
                   key={cat.id}

@@ -29,6 +29,7 @@ export const isPublicAPIRoute = (url) => {
     '/home',
     '/auth/login',
     '/posts/public',
+    '/posts/public/slug/',
     '/templates/'
   ]
   

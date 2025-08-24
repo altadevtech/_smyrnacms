@@ -92,12 +92,13 @@ const Users = () => {
   }
 
   return (
-  <div className="container admin-content-container">
+  <div className="container admin-content-container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
       <div className="users-header">
         <h1>Usuários</h1>
         <button 
           onClick={() => setShowForm(true)} 
           className="btn btn-primary"
+           style={{ float: 'right', marginBottom: '1rem' }}
         >
           <Plus size={18} /> Novo Usuário
         </button>

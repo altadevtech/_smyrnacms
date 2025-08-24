@@ -3,7 +3,7 @@
   border-collapse: separate;
   border-spacing: 0;
   background: var(--color-bg, #fff);
-  border-radius: 14px;
+  border-radius: 4px;
   overflow: hidden;
   font-size: 1.04rem;
 }

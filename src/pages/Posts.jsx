@@ -56,7 +56,7 @@ const Posts = () => {
 
   return (
     <div className="container" style={{ paddingTop: '2rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="posts-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h1>Posts</h1>
         <Link to="/admin/posts/new" className="btn btn-primary">
           <Plus size={18} style={{ verticalAlign: 'middle' }} /> Novo Post
@@ -109,7 +109,7 @@ const Posts = () => {
                           {post.status === 'published' ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                         <Link 
-                          to={`/admin/posts/edit/${post.id}`} 
+                          to={`/admin/post-editor/${post.id}`} 
                           className="posts-action-btn edit"
                           title="Editar post"
                         >

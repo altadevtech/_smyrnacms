@@ -177,7 +177,9 @@ body {
 }
 
 input[type="password"], input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea {
-    padding: 7px;
+    padding: 17px;
+    font-size: 16px;
+
 }
 
 .grid .card h3 {
@@ -212,3 +214,32 @@ input[type="password"], input[type="text"], input[type="email"], input[type="tel
   }
 }
 
+.admin-header {
+    display: flow-root;
+}
+
+.users-header .btn, .admin-header .btn, .posts-header .btn, .pages-header .btn {
+    background: #06c;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 25px;
+    border-radius: 4px;;
+}
+
+a.navbar-login-link {
+    color: #333;
+    border: 1px solid #333 !important;
+    padding: 5px 15px;
+}
+
+a.navbar-login-link:hover {
+    color: #06c;
+    border: 1px solid #06c !important;
+    padding: 5px 15px;
+}
+
+.pages-title-row {
+    line-height: 120%;
+}

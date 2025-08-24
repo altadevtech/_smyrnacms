@@ -21,7 +21,6 @@
   background: var(--color-card);
   /* border-radius removido */
   padding: 2rem;
-  border: 1px solid var(--color-border);
   /* box-shadow removido */
   margin-bottom: 2rem;
 }
@@ -30,9 +29,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
-  margin-bottom: 2.5rem;
-  margin-top: 1.5rem;
   text-align: center;
 }
 
@@ -50,11 +46,7 @@
 }
 .dynamic-home-maincard {
   background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
   padding: 2rem 2.5rem;
-  margin-bottom: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   min-width: 0;
   width: 100%;
 }
@@ -72,9 +64,7 @@
 
 .dynamic-home-card {
   background: var(--color-card);
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  border: 1px solid var(--color-border);
+  border-radius: 0px;
   padding: 1.5rem 1.2rem;
   margin-bottom: 1.5rem;
 }
