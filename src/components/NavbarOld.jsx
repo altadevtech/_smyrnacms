@@ -46,9 +46,10 @@ const Navbar = () => {
     setIsMobileMenuOpen(false)
   }
 
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen)
-  }
+const toggleUserMenu = () => {
+  console.log('toggleUserMenu chamado');
+  setIsUserMenuOpen(!isUserMenuOpen);
+}
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)

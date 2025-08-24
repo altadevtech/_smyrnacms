@@ -3,10 +3,12 @@ import AdminNavbar from './AdminNavbar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
+
 export default function AdminLayout() {
   const { user, logout } = useAuth();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navigate = useNavigate();
+  console.log('AdminLayout user:', user);
 
   const handleLogout = () => {
     logout();

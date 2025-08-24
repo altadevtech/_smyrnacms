@@ -111,7 +111,6 @@
 /* Minimal, theme-driven CSS for NavbarNew.jsx */
 
 .navbar {
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -142,15 +141,7 @@
   height: 100%;
   min-height: 32px;
 }
-.navbar-logo {
-  width: 32px;
-  height: 32px;
-  background: var(--color-accent, #286c5d);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 1.2rem;
+
 .navbar-logo {
   width: 28px;
   height: 28px;
@@ -169,8 +160,7 @@
   margin-left: auto;
   gap: 1.5rem;
 }
-  font-weight: bold;
-}
+
 .navbar-menu {
   display: flex;
   align-items: center;
@@ -205,8 +195,6 @@
   outline: none;
 }
 .user-menu-container {
-.navbar-theme-toggle,
-.remodeled-navbar-theme-toggle {
   margin-right: 0;
 }
 .user-menu-btn,
@@ -225,12 +213,7 @@
   border: none !important;
   box-shadow: none !important;
 }
-  position: relative;
-  min-width: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
+
 .user-menu-btn {
   display: flex;
   align-items: center;
@@ -470,4 +453,17 @@
 .navbar-mobile-user-logout:hover,
 .navbar-mobile-user-logout:focus {
   background: var(--color-danger-bg, rgba(220,38,38,0.08));
+}
+
+
+.user-menu-btn {
+  pointer-events: auto !important;
+  z-index: 10002 !important;
+  position: relative;
+}
+.user-menu-container,
+.remodeled-user-menu-container {
+  pointer-events: auto !important;
+  z-index: 10001 !important;
+  position: relative;
 }

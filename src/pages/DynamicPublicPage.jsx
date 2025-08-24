@@ -2,6 +2,7 @@ import api from '../services/api';
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
+import ContentRenderer from '../components/ContentRenderer';
 import { ArrowLeft, User, Calendar, Home, Clock, Tag, BookOpen } from 'lucide-react';
 import './DynamicPublicPage.css';
 

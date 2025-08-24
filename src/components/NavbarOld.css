@@ -1,13 +1,27 @@
+/* Correção para garantir que o dropdown do usuário sempre apareça acima de outros elementos e não seja ocultado por overflow */
+.user-menu-dropdown {
+  display: block !important;
+  z-index: 9999 !important;
+  background: #fff;
+  min-width: 200px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0;
+}
+
+/* Garante que o container do menu não tenha overflow ocultando o dropdown */
+.user-menu-container {
+  overflow: visible !important;
+}
 /* Minimal, theme-driven CSS for NavbarOld.jsx */
 
 .navbar {
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
   background: var(--color-navbar-bg, rgba(255,255,255,0.95));
-  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border, rgba(0,0,0,0.1));
   transition: background 0.3s, border-bottom 0.3s, box-shadow 0.3s;
   box-shadow: none;
@@ -318,4 +332,10 @@
 .navbar-mobile-user-logout:hover,
 .navbar-mobile-user-logout:focus {
   background: var(--color-danger-bg, rgba(220,38,38,0.08));
+}
+
+.user-menu-dropdown {
+  display: block !important;
+  z-index: 9999 !important;
+  background: #fff;
 }

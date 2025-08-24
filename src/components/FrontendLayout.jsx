@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 import FrontendNavbar from './FrontendNavbar';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

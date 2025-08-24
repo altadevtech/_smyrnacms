@@ -22,33 +22,41 @@ router.get('/', (req, res) => {
   db.all(query, params, (err, categories) => {
     if (err) {
       console.error('Erro ao buscar categorias:', err)
-      return res.status(500).json({ error: 'Erro interno do servidor' })
+      return res.status(500).json({ error: 'Erro interno do servidor', details: err.message })
     }
-    
-    // Se hierárquico, organizar em árvore
+
+    // Logar categorias para debug
     if (hierarchical === 'true') {
-      const categoriesMap = {}
-      const tree = []
-      
-      // Criar mapa de categorias
-      categories.forEach(cat => {
-        categoriesMap[cat.id] = { ...cat, subcategories: [] }
-      })
-      
-      // Organizar hierarquia
-      categories.forEach(cat => {
-        if (cat.parent_id) {
-          if (categoriesMap[cat.parent_id]) {
-            categoriesMap[cat.parent_id].subcategories.push(categoriesMap[cat.id])
+      try {
+        console.log('Categorias retornadas para montagem da árvore:', categories)
+        const categoriesMap = {}
+        const tree = []
+
+        // Criar mapa de categorias
+        categories.forEach(cat => {
+          categoriesMap[cat.id] = { ...cat, subcategories: [] }
+        })
+
+        // Organizar hierarquia
+        categories.forEach(cat => {
+          if (cat.parent_id) {
+            if (categoriesMap[cat.parent_id]) {
+              categoriesMap[cat.parent_id].subcategories.push(categoriesMap[cat.id])
+            } else {
+              console.error('Categoria com parent_id inválido:', cat)
+            }
+          } else {
+            tree.push(categoriesMap[cat.id])
           }
-        } else {
-          tree.push(categoriesMap[cat.id])
-        }
-      })
-      
-      return res.json(tree)
+        })
+
+        return res.json(tree)
+      } catch (treeErr) {
+        console.error('Erro ao montar árvore de categorias:', treeErr)
+        return res.status(500).json({ error: 'Erro ao montar árvore de categorias', details: treeErr.message })
+      }
     }
-    
+
     res.json(categories)
   })
 })

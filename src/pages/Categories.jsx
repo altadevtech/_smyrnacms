@@ -11,7 +11,7 @@ const Categories = () => {
   const [loading, setLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
   const [editingCategory, setEditingCategory] = useState(null)
-  const [activeTab, setActiveTab] = useState('wiki') // 'wiki' ou 'blog'
+  const [activeTab, setActiveTab] = useState('pages') // 'pages' ou 'blog'
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
     defaultValues: {
@@ -19,7 +19,7 @@ const Categories = () => {
       slug: '',
       description: '',
       color: '#6366f1',
-      type: 'wiki',
+  type: 'pages',
       parent_id: ''
     }
   })
@@ -69,8 +69,8 @@ const Categories = () => {
 
   const onSubmit = async (data) => {
     try {
-      // Garantir que o tipo seja o mesmo da aba ativa
-      const categoryData = { ...data, type: activeTab }
+  // Garantir que o tipo seja o mesmo da aba ativa
+  const categoryData = { ...data, type: activeTab }
       
       if (editingCategory) {
         await api.put(`/categories/${editingCategory.id}`, categoryData)
@@ -107,7 +107,7 @@ const Categories = () => {
       slug: '',
       description: '',
       color: '#6366f1',
-      type: activeTab,
+  type: activeTab,
       parent_id: ''
     })
   }
@@ -179,13 +179,13 @@ const Categories = () => {
         )}
       </div>
 
-      {/* Abas para alternar entre Wiki e Blog */}
+  {/* Abas para alternar entre Páginas e Blog */}
   <div className="categories-tabs-bar">
         <button
-          onClick={() => setActiveTab('wiki')}
-          className={`tab-btn ${activeTab === 'wiki' ? 'active' : ''}`}
+          onClick={() => setActiveTab('pages')}
+          className={`tab-btn ${activeTab === 'pages' ? 'active' : ''}`}
         >
-          📚 Categorias Wiki
+          � Categorias Páginas
         </button>
         <button
           onClick={() => setActiveTab('blog')}
@@ -195,13 +195,13 @@ const Categories = () => {
         </button>
       </div>
 
-      {/* Abas para Wiki e Blog */}
+  {/* Abas para Páginas e Blog */}
   <div className="category-tabs">
         <button 
-          className={`tab-btn ${activeTab === 'wiki' ? 'active' : ''}`}
-          onClick={() => setActiveTab('wiki')}
+          className={`tab-btn ${activeTab === 'pages' ? 'active' : ''}`}
+          onClick={() => setActiveTab('pages')}
         >
-          📚 Wiki
+          � Páginas
         </button>
         <button 
           className={`tab-btn ${activeTab === 'blog' ? 'active' : ''}`}
@@ -284,7 +284,7 @@ const Categories = () => {
                   value={activeTab}
                   disabled
                 >
-                  <option value="wiki">📚 Wiki</option>
+                  <option value="pages">� Páginas</option>
                   <option value="blog">📝 Blog</option>
                 </select>
                 <small style={{ color: '#64748b', fontSize: '0.875rem' }}>
@@ -338,7 +338,7 @@ const Categories = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {category.parent_id && <span style={{ marginLeft: '1.5rem', color: '#9ca3af' }}>↳</span>}
                       <span style={{ fontSize: '1.2rem' }}>
-                        {category.type === 'wiki' ? '📚' : '📝'}
+                        {category.type === 'pages' ? '�' : '📝'}
                       </span>
                       <div>
                         {getCategoryDisplay(category)}
@@ -378,9 +378,9 @@ const Categories = () => {
         </div>
       ) : (
         <div className="category-empty-card">
-          <div className="category-empty-icon">{activeTab === 'wiki' ? '📚' : '📝'}</div>
-          <h3 className="category-empty-title">Nenhuma categoria de {activeTab === 'wiki' ? 'Wiki' : 'Blog'} encontrada</h3>
-          <p className="category-empty-text">Crie sua primeira categoria {activeTab === 'wiki' ? 'de Wiki' : 'de Blog'} para organizar melhor seu conteúdo!</p>
+          <div className="category-empty-icon">{activeTab === 'pages' ? '�' : '📝'}</div>
+          <h3 className="category-empty-title">Nenhuma categoria de {activeTab === 'pages' ? 'Páginas' : 'Blog'} encontrada</h3>
+          <p className="category-empty-text">Crie sua primeira categoria {activeTab === 'pages' ? 'de Páginas' : 'de Blog'} para organizar melhor seu conteúdo!</p>
           <button className="btn btn-primary" onClick={() => setIsCreating(true)}>
             <Plus size={18} />
             Criar Primeira Categoria

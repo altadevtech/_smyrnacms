@@ -43,7 +43,7 @@ const PageEditor = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await api.get('/categories?type=wiki')
+      const response = await api.get('/categories?type=pages')
       setCategories(response.data)
     } catch (error) {
       console.error('Erro ao carregar categorias:', error)
@@ -117,7 +117,7 @@ const PageEditor = () => {
         <button onClick={() => navigate('/admin/pages')} className="btn">
           <ArrowLeft size={18} />
         </button>
-        <h1>{isEditing ? 'Editar Página Wiki' : 'Nova Página Wiki'}</h1>
+        <h1>{isEditing ? 'Editar Página' : 'Nova Página'}</h1>
       </div>
 
       <div className="card">
@@ -147,7 +147,7 @@ const PageEditor = () => {
               {...register('summary')}
             />
             <small className="form-text text-muted">
-              Este resumo aparecerá na grade de páginas wiki. Recomendamos entre 100-200 caracteres.
+              Este resumo aparecerá na grade de páginas. Recomendamos entre 100-200 caracteres.
             </small>
           </div>
 
@@ -256,8 +256,8 @@ const PageEditor = () => {
       <div style={{ marginTop: '2rem', fontSize: '0.9rem', color: '#666' }}>
         <h4>Dicas:</h4>
         <ul style={{ paddingLeft: '1.5rem' }}>
-          <li>Use títulos descritivos para suas páginas do wiki</li>
-          <li>Páginas do wiki com status "Rascunho" não aparecerão no site público</li>
+          <li>Use títulos descritivos para suas páginas</li>
+          <li>Páginas com status "Rascunho" não aparecerão no site público</li>
           <li>Escolha uma categoria para ajudar na organização do conteúdo</li>
           <li>Use tags relevantes para facilitar a busca (separe por vírgulas)</li>
           <li>Você pode usar HTML básico no conteúdo</li>

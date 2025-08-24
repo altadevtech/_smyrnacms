@@ -1,3 +1,10 @@
+// Função utilitária para formatar datas (padrão dd/MM/yyyy)
+function formatDate(dateString) {
+  if (!dateString) return '';
+  const d = new Date(dateString);
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
 
 
 import React, { useState, useEffect } from 'react'
@@ -61,27 +68,20 @@ function DynamicHome() {
       homepageData.content.includes('Sistema de Gerenciamento de Conteúdo'))
 
   return (
-      <div className="dynamic-home-container">
-        
-        {/* Header minimalista, sem gradiente, só tema */}
-        <div className="dynamic-home-header">
-          <h1 className="dynamic-home-title">
-            <BookOpen className="dynamic-home-title-icon" size={isMobile ? 40 : 56} />
-            Wiki Nova Fibra
-          </h1>
-          <p className="dynamic-home-content">
-            {hasCustomContent ? 'Página inicial personalizada' : 'Sistema de gerenciamento de conhecimento colaborativo'}
+    <div className="dynamic-home-outer">
+      <div className="dynamic-home-inner">
+        <header className="dynamic-home-header centered">
+          <BookOpen className="dynamic-home-title-icon" size={isMobile ? 40 : 56} />
+          <h1 className="dynamic-home-title main-title">{homepageData?.title || 'Bem-vindo ao Smyrna CMS'}</h1>
+          <p className="dynamic-home-content subtitle">
+            {hasCustomContent ? '' : 'Sistema de gerenciamento de conhecimento colaborativo'}
           </p>
           {isAuthenticated && (
             <a href="/admin/profile" className="btn btn-primary dynamic-home-config-btn">
-              <Settings size={18} />
-              Configurar Página Inicial
+              <Settings size={18} /> Configurar Página Inicial
             </a>
           )}
-        </div>
-
-        {/* Layout de conteúdo 70/30 */}
-        {/* Loading and error handling */}
+        </header>
         {loading ? (
           <div className="dynamic-home-loading">
             <div className="dynamic-home-loading-box">
@@ -94,128 +94,100 @@ function DynamicHome() {
             <p>{error}</p>
           </div>
         ) : (
-          <div 
-            className={`dynamic-home-layout${isMobile ? ' mobile' : ''}`}
-          >
-            <div 
-              className="dynamic-home-maincard"
-            >
-                {hasCustomContent ? (
-                  <>
-                    <div className="homepage-content">
-                      <ContentRenderer content={homepageData.content} />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <h1 className="homepage-title">Bem-vindo ao Smyrna CMS</h1>
-                    <div className="homepage-content">
-                      <h2>Sistema de Gerenciamento de Conteúdo</h2>
-                      <p>Este é um sistema completo para organização e publicação de conteúdo.</p>
-                      <h3>Funcionalidades:</h3>
-                      <ul>
-                        <li>📄 Páginas organizadas</li>
-                        <li>📝 Blog integrado</li>
-                        <li>👥 Gerenciamento de usuários</li>
-                        <li>🎨 Interface responsiva</li>
-                      </ul>
-                      {isAuthenticated && (
-                        <p className="dynamic-home-admin-tip">
-                          💡 <strong>Administrador:</strong> <a href="/admin/profile">Configure o conteúdo da página inicial</a> no seu perfil.
-                        </p>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* Sidebar (30%) */}
-              {!isMobile && (
-                <div 
-                  className="dynamic-home-sidebar"
-                >
-                  {/* Seção de Páginas Recentes */}
-                  <div className="dynamic-home-card">
-                    <div className="dynamic-home-card-header">
-                      <FileText size={18} />
-                      Páginas Recentes
-                    </div>
-                    <div className="dynamic-home-card-list">
-                      {recentPages.length > 0 ? (
-                        <>
-                          <div className="dynamic-home-list">
-                            {recentPages.map((page) => (
-                              <div key={page.id} className="dynamic-home-list-item">
-                                <h4 className="dynamic-home-list-title">
-                                  <a href={`/page/${page.slug}`} className="dynamic-home-list-link">
-                                    {page.title}
-                                  </a>
-                                </h4>
-                                <p className="dynamic-home-list-meta">
-                                  Atualizada em {formatDate(page.updated_at)}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="dynamic-home-list-footer">
-                            <a href="/pages" className="btn btn-secondary dynamic-home-list-btn">
-                              <ArrowRight size={14} />
-                              Ver Todas as Páginas
-                            </a>
-                          </div>
-                        </>
-                      ) : (
-                        <p className="dynamic-home-list-empty">Nenhuma página encontrada.</p>
-                      )}
-                    </div>
-                  </div>
-
-                {/* Seção de Posts Recentes */}
-                <div className="dynamic-home-card">
-                  <div className="dynamic-home-card-header">
-                    <Calendar size={18} />
-                    Posts Recentes
-                  </div>
-                  <div className="dynamic-home-card-list">
-                    {recentPosts.length > 0 ? (
-                      <>
-                        <div className="dynamic-home-list">
-                          {recentPosts.map((post) => (
-                            <div key={post.id} className="dynamic-home-list-item">
-                              <h4 className="dynamic-home-list-title">
-                                <a href={`/post/${post.id}`} className="dynamic-home-list-link">
-                                  {post.title}
-                                </a>
-                              </h4>
-                              <p className="dynamic-home-list-meta">
-                                Publicado em {formatDate(post.created_at)}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="dynamic-home-list-footer">
-                          <a href="/blog" className="btn btn-secondary dynamic-home-list-btn">
-                            <ArrowRight size={14} />
-                            Ver Todos os Posts
-                          </a>
-                        </div>
-                      </>
-                    ) : (
-                      <p className="dynamic-home-list-empty">Nenhum post encontrado.</p>
-                    )}
-                  </div>
+          <div className={`dynamic-home-layout${isMobile ? ' mobile' : ''}`}> 
+            <main className="dynamic-home-maincard">
+              {hasCustomContent ? (
+                <div className="homepage-content">
+                  <ContentRenderer content={homepageData.content} />
                 </div>
-
-                {error && (
-                  <div className="dynamic-home-error">
-                    <p>{error}</p>
-                  </div>
-                )}
+              ) : (
+                <div className="homepage-content">
+                  <h2>Sistema de Gerenciamento de Conteúdo</h2>
+                  <p>Este é um sistema completo para organização e publicação de conteúdo.</p>
+                  <ul className="features-list">
+                    <li>📄 Páginas organizadas</li>
+                    <li>📝 Blog integrado</li>
+                    <li>👥 Gerenciamento de usuários</li>
+                    <li>🎨 Interface responsiva</li>
+                  </ul>
+                  {isAuthenticated && (
+                    <p className="dynamic-home-admin-tip">
+                      💡 <strong>Administrador:</strong> <a href="/admin/profile">Configure o conteúdo da página inicial</a> no seu perfil.
+                    </p>
+                  )}
                 </div>
               )}
-            </div>
+            </main>
+            <aside className="dynamic-home-sidebar">
+              <section className="dynamic-home-card">
+                <div className="dynamic-home-card-header">
+                  <FileText size={18} /> Páginas Recentes
+                </div>
+                <div className="dynamic-home-card-list">
+                  {recentPages.length > 0 ? (
+                    <>
+                      <div className="dynamic-home-list">
+                        {recentPages.map((page) => (
+                          <div key={page.id} className="dynamic-home-list-item">
+                            <h4 className="dynamic-home-list-title">
+                              <a href={`/page/${page.slug}`} className="dynamic-home-list-link">
+                                {page.title}
+                              </a>
+                            </h4>
+                            <p className="dynamic-home-list-meta">
+                              Atualizada em {formatDate(page.updated_at)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="dynamic-home-list-footer">
+                        <a href="/pages" className="btn btn-secondary dynamic-home-list-btn">
+                          <ArrowRight size={14} /> Ver Todas as Páginas
+                        </a>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="dynamic-home-list-empty">Nenhuma página encontrada.</p>
+                  )}
+                </div>
+              </section>
+              <section className="dynamic-home-card">
+                <div className="dynamic-home-card-header">
+                  <Calendar size={18} /> Posts Recentes
+                </div>
+                <div className="dynamic-home-card-list">
+                  {recentPosts.length > 0 ? (
+                    <>
+                      <div className="dynamic-home-list">
+                        {recentPosts.map((post) => (
+                          <div key={post.id} className="dynamic-home-list-item">
+                            <h4 className="dynamic-home-list-title">
+                              <a href={`/post/${post.id}`} className="dynamic-home-list-link">
+                                {post.title}
+                              </a>
+                            </h4>
+                            <p className="dynamic-home-list-meta">
+                              Publicado em {formatDate(post.created_at)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="dynamic-home-list-footer">
+                        <a href="/blog" className="btn btn-secondary dynamic-home-list-btn">
+                          <ArrowRight size={14} /> Ver Todos os Posts
+                        </a>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="dynamic-home-list-empty">Nenhum post encontrado.</p>
+                  )}
+                </div>
+              </section>
+            </aside>
+          </div>
         )}
       </div>
+    </div>
   )
 }
 export default DynamicHome;
