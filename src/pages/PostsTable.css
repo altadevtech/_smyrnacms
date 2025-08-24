@@ -1,0 +1,125 @@
+/* Tabela de posts moderna e responsiva, seguindo o padrão de PagesTable */
+.table.posts-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--color-bg, #fff);
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 1.04rem;
+}
+.table.posts-table thead th {
+  background: var(--color-secondary, #6366f1);
+  color: #fff;
+  font-weight: 700;
+  padding: 1rem 0.8rem;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  text-align: left;
+  line-height: 100%;
+}
+.table.posts-table tbody tr {
+  transition: background 0.15s;
+}
+.table.posts-table tbody tr:hover {
+  background: var(--color-login-form-bg, #f4f6fb);
+}
+.table.posts-table td {
+  padding: 0.85rem 0.8rem;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  vertical-align: top;
+}
+.table.posts-table td:last-child {
+  text-align: right;
+}
+.posts-status {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--color-primary, #6366f1);
+  background: var(--color-login-form-bg, #f4f6fb);
+  border-radius: 6px;
+  padding: 0.2rem 0.7rem;
+  display: inline-block;
+}
+.posts-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+.posts-action-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary, #6366f1);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.posts-action-btn:hover {
+  background: var(--color-primary, #6366f1);
+  color: #fff;
+}
+.category-badge {
+  background: var(--color-primary, #6366f1);
+  color: #fff;
+  padding: 0.2rem 0.7rem;
+  border-radius: 25px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+@media (max-width: 900px) {
+  .table.posts-table thead {
+    display: none;
+  }
+  .table.posts-table, .table.posts-table tbody, .table.posts-table tr, .table.posts-table td {
+    display: block;
+    width: 100%;
+  }
+  .table.posts-table tr {
+    margin-bottom: 1.2rem;
+    border-radius: 0px;
+    background: var(--color-bg, #fff);
+    padding: 0.7rem 0.5rem;
+  }
+  .table.posts-table td {
+    border: none;
+    padding: 0.7rem 0.5rem;
+    text-align: left;
+  }
+  .posts-actions {
+    justify-content: flex-start;
+  }
+}
+[data-theme="dark"] .table.posts-table {
+  background: var(--color-bg, #18181b);
+  box-shadow: 0 4px 24px rgba(99,102,241,0.13);
+}
+[data-theme="dark"] .table.posts-table thead th {
+  background: var(--color-secondary, #23232a);
+  color: var(--color-text, #f3f4f6);
+  border-bottom: 1px solid var(--color-border, #23232a);
+}
+[data-theme="dark"] .table.posts-table tbody tr:hover {
+  background: var(--color-secondary, #23232a);
+}
+[data-theme="dark"] .posts-status {
+  background: var(--color-secondary, #23232a);
+  color: var(--color-primary-light, #60a5fa);
+}
+[data-theme="dark"] .posts-action-btn {
+  color: var(--color-primary-light, #60a5fa);
+}
+[data-theme="dark"] .posts-action-btn:hover {
+  background: var(--color-primary-light, #60a5fa);
+  color: #23232a;
+}
+[data-theme="dark"] .category-badge {
+  background: var(--color-primary-light, #60a5fa);
+  color: #23232a;
+}

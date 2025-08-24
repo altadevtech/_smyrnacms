@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
 import ModernTable from '../components/ModernTable'
+import './UsersTable.css';
 import { Users as UsersIcon, Plus, Edit, Trash2, UserX, UserCheck } from 'lucide-react'
 
 const UsersModern = () => {

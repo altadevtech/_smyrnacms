@@ -1,7 +1,9 @@
 /* ===== LOGIN PAGE MODERNA ===== */
 .login-root {
-  min-height: 100vh;
-  background: #f8fafc;
+    min-height: 80vh;
+    padding: 2rem 2rem;
+    background: var(--color-accent-gradient, var(--color-accent));
+    border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,9 +16,8 @@
   min-height: 80vh;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  border-radius: 0;
+  box-shadow: none;
   padding: 20px;
   margin: 3rem auto;
   max-width: 900px;
@@ -27,10 +28,10 @@
   align-items: flex-start;
   gap: 1.5rem;
   padding: 2.5rem 2rem;
-  background: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%);
-  color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(99,102,241,0.10);
+  background: var(--color-login-welcome-bg, linear-gradient(135deg, #6366f1 0%, #60a5fa 100%));
+  color: var(--color-login-welcome-text, #fff);
+  border-radius: 0;
+  box-shadow: none;
   min-height: 350px;
 }
 .login-welcome h1 {
@@ -80,9 +81,10 @@
   justify-content: center;
 }
 .login-form-card {
-  background: #f4f6fb;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(99,102,241,0.10);
+  background: var(--color-login-form-bg, #f4f6fb);
+  color: var(--color-text, #222);
+  border-radius: 0;
+  box-shadow: none;
   padding: 2.5rem 2rem 2rem 2rem;
   min-width: 320px;
   max-width: 370px;
@@ -102,13 +104,13 @@
 .login-avatar {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%);
+  background: var(--color-login-avatar-bg, linear-gradient(135deg, #6366f1 0%, #60a5fa 100%));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.5rem;
-  box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  box-shadow: none;
 }
 .login-form-header h2 {
   font-size: 1.5rem;
@@ -116,7 +118,7 @@
   margin: 0.5rem 0 0 0;
 }
 .login-form-header p {
-  color: #6b7280;
+  color: var(--color-login-form-desc, #6b7280);
   font-size: 1rem;
   margin: 0;
 }
@@ -134,7 +136,7 @@
 }
 .login-form-group label {
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text, #374151);
   margin-bottom: 0.2rem;
 }
 .login-input-icon {
@@ -142,20 +144,21 @@
   left: 0.9rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #6366f1;
+  color: var(--color-primary, #6366f1);
   pointer-events: none;
 }
 .login-form-group input {
   width: 100%;
   padding: 0.85rem 1rem 0.85rem 2.5rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border, #e5e7eb);
   border-radius: 8px;
   font-size: 1rem;
-  background: #f8fafc;
+  background: var(--color-bg, #f8fafc);
+  color: var(--color-text, #222);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .login-form-group input:focus {
-  border-color: #6366f1;
+  border-color: var(--color-primary, #6366f1);
   outline: none;
   box-shadow: 0 0 0 2px rgba(99,102,241,0.10);
 }
@@ -166,7 +169,7 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #6366f1;
+  color: var(--color-primary, #6366f1);
   cursor: pointer;
   padding: 0.2rem;
   z-index: 2;
@@ -174,8 +177,8 @@
 .login-submit-btn {
   width: 100%;
   padding: 0.95rem 0;
-  background: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%);
-  color: #fff;
+  background: var(--color-login-submit-bg, linear-gradient(135deg, #6366f1 0%, #60a5fa 100%));
+  color: var(--color-login-submit-text, #fff);
   font-weight: 700;
   font-size: 1.1rem;
   border: none;
@@ -193,7 +196,7 @@
   cursor: not-allowed;
 }
 .login-submit-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+  background: var(--color-login-submit-hover-bg, linear-gradient(135deg, #4f46e5 0%, #2563eb 100%));
   box-shadow: 0 4px 16px rgba(99,102,241,0.13);
 }
 .login-spinner {
@@ -207,12 +210,12 @@
 }
 .login-test-users {
   margin-top: 1.5rem;
-  background: #f8fafc;
+  background: var(--color-login-form-bg, #f8fafc);
   border-radius: 8px;
   padding: 1rem 1.2rem;
   width: 100%;
   font-size: 0.98rem;
-  color: #374151;
+  color: var(--color-text, #374151);
   box-shadow: 0 1px 4px rgba(99,102,241,0.06);
 }
 .login-test-users h4 {
@@ -224,8 +227,8 @@
   margin-bottom: 0.5rem;
 }
 .login-test-users code {
-  background: #e0e7ef;
-  color: #374151;
+  background: var(--color-secondary, #e0e7ef);
+  color: var(--color-text, #374151);
   border-radius: 4px;
   padding: 0.2rem 0.5rem;
   font-size: 0.97em;

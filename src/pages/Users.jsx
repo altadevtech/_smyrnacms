@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import api from '../services/api'
 import toast from 'react-hot-toast'
 import { Plus, Edit, Trash2, UserCheck, UserX } from 'lucide-react'
+import './users.css'
 
 const Users = () => {
   const [users, setUsers] = useState([])

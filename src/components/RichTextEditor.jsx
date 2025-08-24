@@ -7,8 +7,9 @@ import './RichTextEditor.css';
 const RichTextEditor = ({ value, onChange, placeholder = 'Digite o conteúdo...' }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Link.configure({ openOnClick: true })
+      StarterKit
+      // Se quiser customizar o Link, descomente abaixo e adicione StarterKit.configure({ link: false })
+      // Link.configure({ openOnClick: true })
     ],
     content: value || '',
     onUpdate: ({ editor }) => {

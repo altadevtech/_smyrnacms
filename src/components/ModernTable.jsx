@@ -34,7 +34,7 @@ const ModernTable = ({
 
   return (
     <div className={`table-responsive ${className}`}>
-      <table className="table">
+      <table className="table users-table">
         <thead>
           <tr>
             {columns.map((column, index) => (

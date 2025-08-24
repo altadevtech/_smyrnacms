@@ -467,3 +467,27 @@
   z-index: 10001 !important;
   position: relative;
 }
+
+button.theme-toggle-btn.default {background: transparent;
+    border: none;
+}
+
+svg.lucide.lucide-monitor {
+    stroke: #fff;
+}
+
+svg.lucide.lucide-sun {
+    stroke: #fff;
+}
+
+svg.lucide.lucide-moon {
+    stroke: #fff;
+}
+
+.theme-light svg.lucide.lucide-moon {
+    stroke: #918d8d;
+}
+
+.theme-bw svg.lucide.lucide-sun {
+     stroke: #918d8d;
+}

@@ -19,9 +19,9 @@ const Footer = () => {
           <div className="minimal-footer-brand">{settings.siteName || 'Smyrna CMS'}</div>
           <div className="minimal-footer-links">
             <Link to="/" className="footer-link">Início</Link>
-            <Link to="/pages" className="footer-link">Páginas</Link>
             <Link to="/blog" className="footer-link">Blog</Link>
             <Link to="/contact" className="footer-link">Contato</Link>
+            <Link to="/login" className="footer-link">Login</Link>
           </div>
           {settings.contactEmail && (
             <a href={`mailto:${settings.contactEmail}`} className="footer-link minimal-footer-contact">

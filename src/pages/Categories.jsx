@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Categories.css'
+import './CategoriesModern.css'
 import { useForm } from 'react-hook-form'
 import api from '../services/api'
 import toast from 'react-hot-toast'
@@ -281,14 +282,12 @@ const Categories = () => {
                   id="type"
                   className="form-control"
                   {...register('type', { required: 'Tipo é obrigatório' })}
-                  value={activeTab}
-                  disabled
                 >
-                  <option value="pages">� Páginas</option>
+                  <option value="pages">📄 Páginas</option>
                   <option value="blog">📝 Blog</option>
                 </select>
                 <small style={{ color: '#64748b', fontSize: '0.875rem' }}>
-                  O tipo é definido pela aba ativa
+                  Escolha o tipo de categoria
                 </small>
               </div>
             </div>
@@ -321,7 +320,7 @@ const Categories = () => {
       {categories.length > 0 ? (
         <div className="card">
           <div className="table-responsive">
-            <table className="table">
+            <table className="table categories-table">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -338,10 +337,22 @@ const Categories = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {category.parent_id && <span style={{ marginLeft: '1.5rem', color: '#9ca3af' }}>↳</span>}
                       <span style={{ fontSize: '1.2rem' }}>
-                        {category.type === 'pages' ? '�' : '📝'}
+                        {category.type === 'pages' ? '📄' : '📝'}
                       </span>
                       <div>
                         {getCategoryDisplay(category)}
+                        <span style={{
+                          display: 'inline-block',
+                          marginLeft: 8,
+                          fontSize: '0.92em',
+                          fontWeight: 600,
+                          color: category.type === 'pages' ? 'var(--color-primary, #6366f1)' : 'var(--color-primary-light, #60a5fa)',
+                          background: category.type === 'pages' ? 'rgba(99,102,241,0.08)' : 'rgba(96,165,250,0.10)',
+                          borderRadius: 6,
+                          padding: '2px 8px',
+                        }}>
+                          {category.type === 'pages' ? 'Páginas' : 'Blog'}
+                        </span>
                       </div>
                     </div>
                   </td>

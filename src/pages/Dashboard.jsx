@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import { BarChart3, FileText, Users, Eye } from 'lucide-react'
+import './Dashboard.css'
 
 const Dashboard = () => {
   const { user } = useAuth()
