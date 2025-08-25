@@ -116,6 +116,7 @@ class Database {
         CREATE TABLE IF NOT EXISTS posts (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           title TEXT NOT NULL,
+          summary TEXT,
           slug TEXT UNIQUE,
           content TEXT NOT NULL,
           status TEXT NOT NULL DEFAULT 'draft',
@@ -344,8 +345,33 @@ class Database {
             console.error('❌ Erro ao criar tabela posts:', err)
             reject(err)
           } else {
-            console.log('✅ Tabela posts criada/verificada')
-            checkComplete()
+            // Garante que a coluna summary existe (caso tabela já existisse sem ela)
+            this.db.get("PRAGMA table_info(posts)", (err, columns) => {
+              if (err) {
+                console.error('❌ Erro ao checar colunas de posts:', err)
+                reject(err)
+              } else {
+                const hasSummary = Array.isArray(columns)
+                  ? columns.some(col => col.name === 'summary')
+                  : (columns && columns.name === 'summary');
+                if (!hasSummary) {
+                  this.db.run('ALTER TABLE posts ADD COLUMN summary TEXT', (err) => {
+                    if (err) {
+                      // Se já existe, ignora
+                      if (!/duplicate|exists/i.test(err.message)) {
+                        console.error('❌ Erro ao adicionar coluna summary:', err)
+                        reject(err)
+                        return;
+                      }
+                    }
+                    console.log('✅ Coluna summary garantida em posts')
+                    checkComplete()
+                  })
+                } else {
+                  checkComplete()
+                }
+              }
+            })
           }
         })
 
