@@ -119,6 +119,7 @@ class Database {
           summary TEXT,
           slug TEXT UNIQUE,
           content TEXT NOT NULL,
+          featured_image TEXT,
           status TEXT NOT NULL DEFAULT 'draft',
           author_id INTEGER NOT NULL,
           category_id INTEGER,
@@ -345,7 +346,7 @@ class Database {
             console.error('❌ Erro ao criar tabela posts:', err)
             reject(err)
           } else {
-            // Garante que a coluna summary existe (caso tabela já existisse sem ela)
+            // Garante que as colunas summary e featured_image existem (caso tabela já existisse sem elas)
             this.db.get("PRAGMA table_info(posts)", (err, columns) => {
               if (err) {
                 console.error('❌ Erro ao checar colunas de posts:', err)
@@ -354,24 +355,58 @@ class Database {
                 const hasSummary = Array.isArray(columns)
                   ? columns.some(col => col.name === 'summary')
                   : (columns && columns.name === 'summary');
-                if (!hasSummary) {
-                  this.db.run('ALTER TABLE posts ADD COLUMN summary TEXT', (err) => {
-                    if (err) {
-                      // Se já existe, ignora
-                      if (!/duplicate|exists/i.test(err.message)) {
-                        console.error('❌ Erro ao adicionar coluna summary:', err)
+                const hasFeaturedImage = Array.isArray(columns)
+                  ? columns.some(col => col.name === 'featured_image')
+                  : (columns && columns.name === 'featured_image');
+                const ensureFeaturedImage = cb => {
+                  if (!hasFeaturedImage) {
+                    this.db.run('ALTER TABLE posts ADD COLUMN featured_image TEXT', (err) => {
+                      if (err && !/duplicate|exists/i.test(err.message)) {
+                        console.error('❌ Erro ao adicionar coluna featured_image:', err)
                         reject(err)
                         return;
                       }
+                      console.log('✅ Coluna featured_image garantida em posts')
+                      cb();
+                    })
+                  } else {
+                    cb();
+                  }
+                };
+                if (!hasSummary) {
+                  this.db.run('ALTER TABLE posts ADD COLUMN summary TEXT', (err) => {
+                    if (err && !/duplicate|exists/i.test(err.message)) {
+                      console.error('❌ Erro ao adicionar coluna summary:', err)
+                      reject(err)
+                      return;
                     }
                     console.log('✅ Coluna summary garantida em posts')
-                    checkComplete()
+                    ensureFeaturedImage(checkComplete);
                   })
                 } else {
-                  checkComplete()
+                  ensureFeaturedImage(checkComplete);
                 }
               }
             })
+          }
+        })
+      // Tabela de configurações
+      const settingsTable = `
+        CREATE TABLE IF NOT EXISTS settings (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          key TEXT UNIQUE NOT NULL,
+          value TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+      `
+        this.db.run(settingsTable, (err) => {
+          if (err) {
+            console.error('❌ Erro ao criar tabela settings:', err)
+            reject(err)
+          } else {
+            console.log('✅ Tabela settings criada/verificada')
+            checkComplete()
           }
         })
 
