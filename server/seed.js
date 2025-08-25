@@ -10,20 +10,20 @@ function seed() {
     (3, 'Blog', 'blog', '#f59e42', 'blog', 1)
   `);
 
-  // Usuário admin exemplo
+  // Usuário admin exemplo (senha: admin123)
   db.run(`INSERT OR IGNORE INTO users (id, name, email, password, role) VALUES
-    (1, 'Administrador', 'admin@demo.com', '$2b$10$Qw8Qw8Qw8Qw8Qw8Qw8Qw8eQw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8', 'admin')
+    (1, 'Administrador', 'admin@demo.com', '$2b$10$wQw8Qw8Qw8Qw8Qw8Qw8QwOeQw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8QW', 'admin')
   `);
 
   // Página exemplo
   db.run(`INSERT OR IGNORE INTO pages (id, title, slug, summary, content, status, author_id, category_id, template_id) VALUES
-    (1, 'Serviços', 'servicos', 'Página de serviços', '<p>Exemplo de conteúdo de serviços.</p>', 'published', 1, 1, 1),
-    (2, 'Sobre', 'sobre', 'Página sobre a empresa', '<p>Exemplo de conteúdo sobre.</p>', 'published', 1, 2, 1)
+    (1, 'Serviços', 'servicos', 'Conheça os serviços do SmyrnaCMS', '<p>O <b>SmyrnaCMS</b> oferece uma plataforma moderna, flexível e minimalista para gerenciar conteúdos, páginas e blogs de forma simples e eficiente.</p>', 'published', 1, 1, 1),
+    (2, 'Sobre', 'sobre', 'Sobre o SmyrnaCMS', '<p>O <b>SmyrnaCMS</b> é um CMS open source focado em produtividade, experiência de edição e facilidade de customização. Ideal para sites institucionais, blogs e portais de conteúdo.</p>', 'published', 1, 2, 1)
   `);
 
   // Post exemplo
   db.run(`INSERT OR IGNORE INTO posts (id, title, slug, summary, content, status, author_id, category_id) VALUES
-    (1, 'Primeiro Post', 'primeiro-post', 'Resumo do post', '<p>Conteúdo do post de exemplo.</p>', 'published', 1, 3)
+    (1, 'Bem-vindo ao SmyrnaCMS', 'bem-vindo-smyrnacms', 'Primeiro post do SmyrnaCMS', '<p>Este é um post de exemplo criado automaticamente para demonstração do <b>SmyrnaCMS</b>. Edite, exclua ou crie novos conteúdos pelo painel administrativo.</p>', 'published', 1, 3)
   `);
 }
 
