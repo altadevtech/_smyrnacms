@@ -137,6 +137,7 @@ class Database {
           type TEXT NOT NULL DEFAULT 'blog',
           color TEXT DEFAULT '#3b82f6',
           parent_id INTEGER DEFAULT NULL,
+          sort_order INTEGER DEFAULT 0,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           UNIQUE(name, type, parent_id),
@@ -282,8 +283,33 @@ class Database {
             console.error('❌ Erro ao criar tabela categories:', err)
             reject(err)
           } else {
-            console.log('✅ Tabela categories criada/verificada')
-            checkComplete()
+            // Garante que a coluna sort_order existe (caso tabela já existisse sem ela)
+            this.db.get("PRAGMA table_info(categories)", (err, columns) => {
+              if (err) {
+                console.error('❌ Erro ao checar colunas de categories:', err)
+                reject(err)
+              } else {
+                const hasSortOrder = Array.isArray(columns)
+                  ? columns.some(col => col.name === 'sort_order')
+                  : (columns && columns.name === 'sort_order');
+                if (!hasSortOrder) {
+                  this.db.run('ALTER TABLE categories ADD COLUMN sort_order INTEGER DEFAULT 0', (err) => {
+                    if (err) {
+                      // Se já existe, ignora
+                      if (!/duplicate|exists/i.test(err.message)) {
+                        console.error('❌ Erro ao adicionar coluna sort_order:', err)
+                        reject(err)
+                        return;
+                      }
+                    }
+                    console.log('✅ Coluna sort_order garantida em categories')
+                    checkComplete()
+                  })
+                } else {
+                  checkComplete()
+                }
+              }
+            })
           }
         })
         
