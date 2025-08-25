@@ -12,7 +12,7 @@ function seed() {
 
   // Usuário admin exemplo (senha: admin123)
   db.run(`INSERT OR IGNORE INTO users (id, name, email, password, role) VALUES
-    (1, 'Administrador', 'admin@demo.com', '$2b$10$wQw8Qw8Qw8Qw8Qw8Qw8QwOeQw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8Qw8QW', 'admin')
+    (1, 'Administrador', 'admin@demo.com', '$2a$10$MtEaOWWElBOuBjkpdfSmyOafzb3IheF4Slmr3L9pw6Oty2xeRhL5.', 'admin')
   `);
 
   // Página exemplo
