@@ -32,7 +32,11 @@ async function initializeServer() {
   try {
     await Database.init()
     console.log('✅ Database inicializado com sucesso')
-    
+
+    // Popula dados de exemplo sempre que o servidor iniciar
+    const seed = (await import('./seed.js')).default;
+    seed();
+
     // Health check route for Render
     app.get('/api/health', (req, res) => {
       res.json({ status: 'OK', timestamp: new Date().toISOString() })
