@@ -94,6 +94,7 @@ class Database {
         CREATE TABLE IF NOT EXISTS pages (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           title TEXT NOT NULL,
+          summary TEXT,
           content TEXT NOT NULL,
           status TEXT NOT NULL DEFAULT 'draft',
           author_id INTEGER NOT NULL,
@@ -273,8 +274,33 @@ class Database {
             console.error('❌ Erro ao criar tabela pages:', err)
             reject(err)
           } else {
-            console.log('✅ Tabela pages criada/verificada')
-            checkComplete()
+            // Garante que a coluna summary existe (caso tabela já existisse sem ela)
+            this.db.get("PRAGMA table_info(pages)", (err, columns) => {
+              if (err) {
+                console.error('❌ Erro ao checar colunas de pages:', err)
+                reject(err)
+              } else {
+                const hasSummary = Array.isArray(columns)
+                  ? columns.some(col => col.name === 'summary')
+                  : (columns && columns.name === 'summary');
+                if (!hasSummary) {
+                  this.db.run('ALTER TABLE pages ADD COLUMN summary TEXT', (err) => {
+                    if (err) {
+                      // Se já existe, ignora
+                      if (!/duplicate|exists/i.test(err.message)) {
+                        console.error('❌ Erro ao adicionar coluna summary:', err)
+                        reject(err)
+                        return;
+                      }
+                    }
+                    console.log('✅ Coluna summary garantida em pages')
+                    checkComplete()
+                  })
+                } else {
+                  checkComplete()
+                }
+              }
+            })
           }
         })
         
