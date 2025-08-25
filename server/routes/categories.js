@@ -358,51 +358,59 @@ router.delete('/:id', authenticateToken, (req, res) => {
       return res.status(404).json({ error: 'Categoria não encontrada' })
     }
     
-    // Verificar se há subcategorias
-    db.get('SELECT COUNT(*) as count FROM categories WHERE parent_id = ?', [id], (err, subcatsResult) => {
-      if (err) {
-        console.error('Erro ao verificar subcategorias:', err)
-        return res.status(500).json({ error: 'Erro interno do servidor' })
-      }
-      
-      if (subcatsResult.count > 0) {
-        return res.status(400).json({ error: 'Não é possível deletar categoria com subcategorias' })
-      }
-      
-      // Verificar se há posts usando esta categoria
-      db.get('SELECT COUNT(*) as count FROM posts WHERE category_id = ?', [id], (err, postsResult) => {
-        if (err) {
-          console.error('Erro ao verificar posts:', err)
-          return res.status(500).json({ error: 'Erro interno do servidor' })
+    // Função para deletar recursivamente categoria e subcategorias
+    function deleteCategoryAndChildren(categoryId, callback) {
+      // Deletar subcategorias primeiro
+      db.all('SELECT id FROM categories WHERE parent_id = ?', [categoryId], (err, subcats) => {
+        if (err) return callback(err);
+        let pending = subcats.length;
+        if (pending === 0) {
+          // Não há subcategorias, pode deletar a categoria
+          return deleteSingleCategory(categoryId, callback);
         }
-        
-        if (postsResult.count > 0) {
-          return res.status(400).json({ error: 'Não é possível deletar categoria com posts' })
-        }
-        
-        // Verificar se há páginas usando esta categoria
-        db.get('SELECT COUNT(*) as count FROM pages WHERE category_id = ?', [id], (err, pagesResult) => {
-          if (err) {
-            console.error('Erro ao verificar páginas:', err)
-            return res.status(500).json({ error: 'Erro interno do servidor' })
-          }
-          
-          if (pagesResult.count > 0) {
-            return res.status(400).json({ error: 'Não é possível deletar categoria com páginas' })
-          }
-          
-          // Deletar categoria
-          db.run('DELETE FROM categories WHERE id = ?', [id], function(err) {
-            if (err) {
-              console.error('Erro ao deletar categoria:', err)
-              return res.status(500).json({ error: 'Erro interno do servidor' })
+        subcats.forEach(subcat => {
+          deleteCategoryAndChildren(subcat.id, err => {
+            if (err) return callback(err);
+            pending--;
+            if (pending === 0) {
+              deleteSingleCategory(categoryId, callback);
             }
-            
-            res.json({ message: 'Categoria deletada com sucesso' })
-          })
-        })
-      })
-    })
+          });
+        });
+      });
+    }
+
+    // Função para deletar uma única categoria (após checar posts/páginas)
+    function deleteSingleCategory(categoryId, callback) {
+      // Verificar se há posts usando esta categoria
+      db.get('SELECT COUNT(*) as count FROM posts WHERE category_id = ?', [categoryId], (err, postsResult) => {
+        if (err) return callback(err);
+        if (postsResult.count > 0) {
+          return callback(new Error('Não é possível deletar categoria com posts'));
+        }
+        // Verificar se há páginas usando esta categoria
+        db.get('SELECT COUNT(*) as count FROM pages WHERE category_id = ?', [categoryId], (err, pagesResult) => {
+          if (err) return callback(err);
+          if (pagesResult.count > 0) {
+            return callback(new Error('Não é possível deletar categoria com páginas'));
+          }
+          // Deletar categoria
+          db.run('DELETE FROM categories WHERE id = ?', [categoryId], function(err) {
+            if (err) return callback(err);
+            callback();
+          });
+        });
+      });
+    }
+
+    // Iniciar exclusão recursiva
+    deleteCategoryAndChildren(id, (err) => {
+      if (err) {
+        const msg = err.message || 'Erro interno do servidor';
+        return res.status(400).json({ error: msg });
+      }
+      res.json({ message: 'Categoria e subcategorias deletadas com sucesso' });
+    });
   })
 })
 

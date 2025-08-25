@@ -343,7 +343,8 @@ const Categories = () => {
                             parent_id: category.parent_id,
                             sort_order: newOrder
                           });
-                          fetchCategories();
+                          // Atualiza localmente sem esperar fetchCategories
+                          setCategories(prev => prev.map(cat => cat.id === category.id ? { ...cat, sort_order: newOrder } : cat));
                           toast.success('Ordem atualizada!');
                         } catch (err) {
                           toast.error('Erro ao atualizar ordem');

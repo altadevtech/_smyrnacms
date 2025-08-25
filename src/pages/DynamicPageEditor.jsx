@@ -97,19 +97,21 @@ const DynamicPageEditor = () => {
         setLoading(true)
         const response = await api.get(`/pages/${id}`)
         const page = response.data
-        
-  // Preencher o formulário
+
+        // Preencher todos os campos do formulário
+        setValue('title', page.title || '')
+        setValue('summary', page.summary || '')
         setValue('slug', page.slug || '')
         setValue('status', page.status || 'draft')
         setValue('category_id', page.category_id || '')
         setValue('template_id', page.template_id || 1)
         setValue('widget_data', page.widget_data ? JSON.parse(page.widget_data) : {})
-        
+
         // Definir conteúdo para o Rich Text Editor
         const pageContent = page.content || ''
         setContent(pageContent)
         setValue('content', pageContent)
-        
+
       } catch (error) {
         console.error('Erro ao carregar página:', error)
         toast.error('Erro ao carregar página')
@@ -120,7 +122,7 @@ const DynamicPageEditor = () => {
     }
 
     fetchPage()
-  }, [id, isEditing, setValue, navigate])
+  }, [isEditing, id, setValue, navigate])
 
   const onSubmit = async (data) => {
     try {

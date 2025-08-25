@@ -13,8 +13,12 @@ const FrontendNavbar = () => {
   const [openDropdownId, setOpenDropdownId] = useState(null);
 
 
+
   useEffect(() => {
     fetchPageCategories();
+    // Polling para atualizar categorias a cada 10 segundos
+    const interval = setInterval(fetchPageCategories, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchPageCategories = async () => {

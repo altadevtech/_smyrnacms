@@ -141,8 +141,8 @@
 }
 .login-input-icon {
   position: absolute;
-  left: 0.9rem;
-  top: 50%;
+  right: 0.9rem;
+  top: 24%;
   transform: translateY(-50%);
   color: var(--color-primary, #6366f1);
   pointer-events: none;
@@ -165,7 +165,7 @@
 .login-show-password {
   position: absolute;
   right: 0.7rem;
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -210,13 +210,12 @@
 }
 .login-test-users {
   margin-top: 1.5rem;
-  background: var(--color-login-form-bg, #f8fafc);
+  background: #f8fafc;
   border-radius: 8px;
   padding: 1rem 1.2rem;
   width: 100%;
   font-size: 0.98rem;
   color: var(--color-text, #374151);
-  box-shadow: 0 1px 4px rgba(99,102,241,0.06);
 }
 .login-test-users h4 {
   display: flex;
@@ -227,8 +226,8 @@
   margin-bottom: 0.5rem;
 }
 .login-test-users code {
-  background: var(--color-secondary, #e0e7ef);
-  color: var(--color-text, #374151);
+  background: #e0e7ef;
+  color: #374151;
   border-radius: 4px;
   padding: 0.2rem 0.5rem;
   font-size: 0.97em;
